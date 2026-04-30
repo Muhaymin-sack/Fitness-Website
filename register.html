@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitness Website Register</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #0B090A;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      min-height: 680px;
+      display: flex;
+      background-color: #6C757D;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .left-panel {
+      width: 50%;
+      background: linear-gradient(135deg, #6C757D 0%, #495057 100%);
+      color: #FFFFFF;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .left-panel h1 {
+      font-size: 34px;
+    }
+
+    .left-panel p {
+      line-height: 1.6;
+      color: #E9ECEF;
+    }
+
+    .right-panel {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 36px;
+    }
+
+    .register-box {
+      width: 100%;
+      max-width: 360px;
+      color: #FFFFFF;
+    }
+
+    .register-box h2 {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #E9ECEF;
+      margin-bottom: 22px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      margin-top: 6px;
+      color: #E9ECEF;
+    }
+
+    .checkbox-row input {
+      width: 15px;
+      height: 15px;
+      accent-color: #BA181B;
+      margin-top: 2px;
+    }
+
+    button {
+      margin-top: 6px;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      background-color: #BA181B;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.92;
+    }
+
+    #message {
+      min-height: 20px;
+      margin-top: 12px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .error { color: #FFD6D6; }
+    .success { color: #D4FFDF; }
+
+    .login-text {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 14px;
+      color: #E9ECEF;
+    }
+
+    .login-text a {
+      color: #FFFFFF;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .login-text a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+      .left-panel,
+      .right-panel {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="right-panel">
+      <div class="register-box">
+        <h2>Create Account</h2>
+        <p class="subtitle">Join and start your fitness journey</p>
+
+        <form id="registerForm">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" required />
+
+          <label for="email">Email address</label>
+          <input type="email" id="email" required />
+
+          <label for="password">Password</label>
+          <input type="password" id="password" minlength="8" required />
+
+          <label for="confirmPassword">Confirm password</label>
+          <input type="password" id="confirmPassword" minlength="8" required />
+
+          <label class="checkbox-row" for="terms">
+            <input type="checkbox" id="terms" required />
+            I agree to the Terms and Privacy Policy.
+          </label>
+
+          <button type="submit">Register</button>
+        </form>
+
+        <p id="message" role="status" aria-live="polite"></p>
+
+        <p class="login-text">Already have an account? <a href="login.html">Login</a></p>
+      </div>
+    </div>
+    <div class="left-panel">
+      <h1>Fitness Hub</h1>
+      <p>Create your account to manage memberships, classes and trainer bookings.</p>
+      <p>Color style follows your black + gray + red project theme.</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("registerForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const terms = document.getElementById("terms").checked;
+
+      message.textContent = "";
+      message.className = "";
+
+      if (password !== confirmPassword) {
+        message.textContent = "Passwords do not match.";
+        message.classList.add("error");
+        return;
+      }
+
+      if (!terms) {
+        message.textContent = "Please accept terms before registering.";
+        message.classList.add("error");
+        return;
+      }
+
+      message.textContent = "Registration successful. You can now login.";
+      message.classList.add("success");
+    });
+  </script>
+</body>
+</html>
