@@ -4,24 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | Fitness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,900&family=DM+Mono&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --bg-page: #F4F4F4;      
-      --card-white: #FFFFFF;
-      --pure-black: #000000;
-      --gym-red: #BA181B;      
-      --text-grey: #777777;    
-      --border-thin: #EAEAEA;  
+      /* Colors */
+      --red: #BA181B;
+      --white: #FFFFFF;
+      --gray: #6C757D;
+      --red-hover: #9b1315;
+      --gray-light: #e9ecef;
+      --ink: #0B090A;
+      --surface: #F7F5F4;
+      --card-bg: #FFFFFF;
+      --border: #e2dfdd;
+
+      /* Typography */
+      --heading: 'Barlow Condensed', sans-serif;
+      --body: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+
+      /* Animation & UI */
+      --ease: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius: 4px;
     }
 
     * {
       margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: var(--body);
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
-      background-color: var(--bg-page);
-      color: var(--pure-black);
+      background-color: var(--surface);
+      color: var(--ink);
       padding: 60px 20px;
       display: flex;
       justify-content: center;
@@ -29,32 +47,29 @@
 
     .main-container { width: 100%; max-width: 1100px; }
 
-    /* FIXED HEADER: CLEAN BOLD SANS-SERIF */
+    /* HEADER STYLING */
     header { text-align: center; margin-bottom: 70px; }
 
     header h1 {
-      /* Switching from Impact to a cleaner Arial Black / Helvetica stack */
-      font-family: 'Arial Black', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: 72px; 
+      font-family: var(--heading);
+      font-size: 82px; 
       text-transform: uppercase;
-      line-height: 1.0; 
-      letter-spacing: -2px; /* Reduced the negative spacing for clarity */
+      line-height: 0.9; 
+      letter-spacing: -3px;
       font-weight: 900;
       display: block;
     }
 
-    header h1 .red-text { color: var(--gym-red); display: block; }
+    header h1 .red-text { color: var(--red); display: block; }
 
     header p {
-      font-family: Arial, sans-serif;
-      color: var(--text-grey);
-      font-size: 14px;
-      margin-top: 15px;
+      color: var(--gray);
+      font-size: 15px;
+      margin-top: 20px;
       max-width: 500px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.6;
-      font-weight: 400;
     }
 
     /* GRID & CARDS */
@@ -66,41 +81,44 @@
     }
 
     .card {
-      background-color: var(--card-white);
-      border: 1px solid var(--border-thin);
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
       padding: 60px 45px;
       position: relative;
-      border-radius: 0px; 
+      border-radius: var(--radius);
+      transition: border-color var(--ease);
     }
 
+    /* Card Status Indicators */
     .card::before {
       content: '';
       position: absolute;
       top: 35px; left: 45px;
       width: 25px; height: 8px;
-      background: var(--pure-black);
+      background: var(--ink);
+      border-radius: 1px;
     }
 
-    .card.accent::before { background: var(--gym-red); }
+    .card.accent::before { background: var(--red); }
 
     .card-label {
       position: absolute;
       top: 33px; right: 45px;
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 700;
       text-transform: uppercase;
-      color: var(--text-grey);
+      color: var(--gray);
       letter-spacing: 2px;
+      font-family: var(--heading);
     }
 
-    /* CLEANER SECTION HEADING */
     .card h2 {
-      font-family: 'Arial Black', sans-serif;
-      font-size: 28px;
+      font-family: var(--heading);
+      font-size: 36px;
       text-transform: uppercase;
       margin: 25px 0 40px 0;
       letter-spacing: -0.5px;
-      line-height: 1.2;
+      line-height: 1.0;
     }
 
     /* FORM STYLING */
@@ -109,43 +127,51 @@
 
     label {
       display: block;
-      font-size: 11px;
-      font-weight: 900;
+      font-size: 12px;
+      font-weight: 700;
       text-transform: uppercase;
       margin-bottom: 12px;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
+      color: var(--ink);
     }
 
     select, input {
       width: 100%;
       padding: 12px 0;
       border: none;
-      border-bottom: 1px solid var(--border-thin);
+      border-bottom: 1px solid var(--border);
       font-size: 15px;
       outline: none;
       background: transparent;
       border-radius: 0;
-      color: var(--pure-black);
+      color: var(--ink);
+      transition: border-color var(--ease);
     }
 
-    select:focus, input:focus { border-bottom-color: var(--gym-red); }
+    select:focus, input:focus { border-bottom-color: var(--red); }
 
-    /* GHOST BUTTON MATCHING 'SELECT PLAN' */
+    /* PRIMARY BUTTON */
     .primary-btn {
       width: 100%;
       padding: 18px;
       background: transparent;
-      border: 1px solid var(--pure-black);
-      font-size: 12px;
-      font-weight: 800;
+      border: 2px solid var(--ink);
+      font-size: 13px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 5px; 
+      letter-spacing: 4px; 
       cursor: pointer;
-      transition: 0.3s;
+      transition: var(--ease);
       margin-top: 20px;
+      border-radius: var(--radius);
+      font-family: var(--heading);
     }
 
-    .primary-btn:hover { background: var(--pure-black); color: #FFF; }
+    .primary-btn:hover { 
+      background: var(--ink); 
+      color: var(--white);
+      transform: translateY(-2px);
+    }
 
     /* CALENDAR UI */
     .cal-nav {
@@ -156,39 +182,55 @@
     }
 
     .cal-nav h3 { 
-        font-family: 'Arial Black', sans-serif; 
-        text-transform: uppercase; 
-        font-size: 18px; 
+      font-family: var(--heading); 
+      text-transform: uppercase; 
+      font-size: 22px; 
     }
+
+    .cal-nav button { 
+      background: none; 
+      border: none; 
+      font-size: 24px; 
+      cursor: pointer; 
+      color: var(--gray);
+      transition: color var(--ease);
+    }
+    .cal-nav button:hover { color: var(--red); }
 
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
 
     .day-name {
       text-align: center;
       font-size: 11px;
-      font-weight: 900;
+      font-weight: 700;
       text-transform: uppercase;
-      color: var(--text-grey);
+      color: var(--gray);
       margin-bottom: 20px;
     }
 
     .day {
       aspect-ratio: 1;
-      border: 1px solid var(--border-thin);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 13px;
       font-weight: 700;
       position: relative;
+      border-radius: var(--radius);
+      transition: var(--ease);
+      font-family: var(--mono);
     }
 
     .day.empty { border: none; }
-    .day:hover:not(.empty) { background: #F9F9F9; border-color: var(--pure-black); }
+    .day:hover:not(.empty) { 
+      background: var(--gray-light); 
+      border-color: var(--ink); 
+    }
 
     .event-indicator {
-      width: 4px; height: 4px;
-      background: var(--gym-red);
+      width: 6px; height: 6px;
+      background: var(--red);
       border-radius: 50%;
       position: absolute;
       bottom: 8px;
@@ -197,12 +239,18 @@
     /* SCHEDULE LIST */
     .schedule-viewer {
       margin-top: 40px;
-      border-top: 1px solid var(--border-thin);
+      border-top: 1px solid var(--border);
       padding-top: 30px;
     }
 
     .schedule-viewer h4 {
-      font-size: 11px; font-weight: 900; text-transform: uppercase; color: var(--text-grey); margin-bottom: 20px; letter-spacing: 2px;
+      font-family: var(--heading);
+      font-size: 14px; 
+      font-weight: 700; 
+      text-transform: uppercase; 
+      color: var(--gray); 
+      margin-bottom: 20px; 
+      letter-spacing: 1px;
     }
 
     .class-item {
@@ -210,11 +258,29 @@
       justify-content: space-between;
       align-items: center;
       padding: 15px 0;
-      border-bottom: 1px solid #F4F4F4;
+      border-bottom: 1px solid var(--surface);
     }
 
-    .class-info b { font-size: 14px; text-transform: uppercase; display: block; letter-spacing: 1px; }
-    .class-time { font-family: 'Arial Black', sans-serif; color: var(--gym-red); font-size: 14px; }
+    .class-item:last-child { border: none; }
+
+    .class-info b { 
+      font-family: var(--heading);
+      font-size: 18px; 
+      text-transform: uppercase; 
+      display: block; 
+      line-height: 1;
+    }
+    .class-info span { 
+      font-size: 12px; 
+      color: var(--gray); 
+      font-weight: 500; 
+    }
+    .class-time { 
+      font-family: var(--mono); 
+      color: var(--red); 
+      font-size: 14px; 
+      font-weight: 700;
+    }
 
     @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; } }
   </style>
@@ -224,33 +290,33 @@
 <div class="main-container">
   <header>
     <h1>ADMIN <span class="red-text">DASHBOARD</span></h1>
-    <p>Flexible slot management designed to help you reach your fitness goals, no matter where you are starting from.</p>
+    <p>Manage your fitness slots with ease. Every session updated here helps your members reach their peak strength.</p>
   </header>
 
   <div class="dashboard-grid">
     
     <div class="card">
-      <span class="card-label">Management</span>
+      <span class="card-label">Slot Management</span>
       <h2>SCHEDULE SESSION</h2>
       <form id="slotForm">
         <div class="form-group">
-          <label>ACTIVITY NAME</label>
+          <label>Activity Name</label>
           <select id="activity" required>
             <option value="" disabled selected>Select Activity</option>
             <option>HIIT Class</option><option>Yoga & Pilates</option><option>Weightlifting</option><option>Boxing</option>
           </select>
         </div>
         <div class="form-group">
-          <label>TRAINER</label>
+          <label>Trainer</label>
           <select id="trainer" required>
             <option value="" disabled selected>Select Trainer</option>
             <option>David Chen</option><option>Emily Rodriguez</option><option>Michael Brown</option>
           </select>
         </div>
         <div class="form-row">
-          <div class="form-group"><label>DATE</label><input type="date" id="date" required></div>
+          <div class="form-group"><label>Date</label><input type="date" id="date" required></div>
           <div class="form-group">
-            <label>TIME SLOT</label>
+            <label>Time Slot</label>
             <select id="time" required>
               <option value="" disabled selected>Select Time</option>
               <option>09:00 AM</option><option>12:00 PM</option><option>05:00 PM</option><option>07:00 PM</option>
@@ -262,11 +328,11 @@
     </div>
 
     <div class="card accent">
-      <span class="card-label">Overview</span>
+      <span class="card-label">Weekly Overview</span>
       <div class="cal-nav">
-        <button id="prevBtn" style="font-weight: bold;">&larr;</button>
+        <button id="prevBtn" aria-label="Previous Month">&larr;</button>
         <h3 id="monthLabel">May 2026</h3>
-        <button id="nextBtn" style="font-weight: bold;">&rarr;</button>
+        <button id="nextBtn" aria-label="Next Month">&rarr;</button>
       </div>
       <div class="calendar-grid">
         <div class="day-name">Sun</div><div class="day-name">Mon</div><div class="day-name">Tue</div>
@@ -319,7 +385,7 @@
     const dayEvents = scheduleData[dateKey] || [];
 
     if (dayEvents.length === 0) {
-      list.innerHTML = "No classes scheduled for this day.";
+      list.innerHTML = `<div style="font-size: 14px; color: var(--gray);">No classes scheduled for this day.</div>`;
       return;
     }
 
@@ -349,7 +415,11 @@
     render();
     showClasses(d);
     document.getElementById("slotForm").reset(); 
-    alert("CALENDAR UPDATED SUCCESSFULLY");
+    // Minimalistic success feedback
+    const btn = document.querySelector('.primary-btn');
+    const originalText = btn.innerText;
+    btn.innerText = "SUCCESS";
+    setTimeout(() => { btn.innerText = originalText; }, 2000);
   };
 
   document.getElementById("prevBtn").onclick = () => { viewDate.setMonth(viewDate.getMonth() - 1); render(); };
