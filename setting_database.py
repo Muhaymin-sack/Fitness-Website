@@ -26,5 +26,8 @@ cur.execute("Create Table If Not Exists Users_Membership_table(UM_id Integer Pri
             "End_date Date, Payment_status Boolean, User_id Integer, Membership_id Integer, " \
             "Foreign Key(User_id) References User_table(User_id), Foreign Key(Membership_id) References Membership_table(Membership_id))")
 
+cur.execute("")
+
+
 con.commit()
 con.close()
