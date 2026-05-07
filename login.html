@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fitness Website Login</title>
+  <title>Admin Dashboard | Fitness</title>
 
   <style>
     * {
@@ -53,14 +53,14 @@
       padding: 40px;
     }
 
-    .login-box {
+    .admin-box {
       width: 100%;
       max-width: 320px;
       text-align: center;
       color: #FFFFFF;
     }
 
-    .login-box h1 {
+    .admin-box h1 {
       font-size: 32px;
       margin-bottom: 10px;
     }
@@ -77,14 +77,6 @@
       gap: 16px;
     }
 
-    input {
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      outline: none;
-      font-size: 15px;
-    }
-
     select {
       padding: 14px;
       border: none;
@@ -93,6 +85,7 @@
       font-size: 15px;
       background-color: #FFFFFF;
       color: #212529;
+      cursor: pointer;
     }
 
     button {
@@ -104,32 +97,20 @@
       font-size: 16px;
       cursor: pointer;
       transition: 0.3s;
+      margin-top: 10px;
+      font-weight: bold;
     }
 
     button:hover {
       opacity: 0.9;
     }
 
-    .register-text {
-      margin-top: 20px;
-      font-size: 14px;
-    }
-
-    .register-text a {
-      color: #FFFFFF;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .register-text a:hover {
-      text-decoration: underline;
-    }
-
     #message {
-      margin-top: 15px;
-      font-size: 14px;
+      margin-top: 20px;
+      font-size: 15px;
       color: #FFFFFF;
       min-height: 18px;
+      font-weight: bold;
     }
 
     #message.error {
@@ -159,30 +140,34 @@
 <body>
   <div class="container">
     <div class="left-panel">
-      <img src="images/login.jpg" alt="Fitness Login Image" />
+      <img src="images/login.jpg" alt="Fitness Gym Image" />
     </div>
 
     <div class="right-panel">
-      <div class="login-box">
-        <h1>Fitness</h1>
-        <p class="subtitle">Welcome back</p>
+      <div class="admin-box">
+        <h1>Admin Portal</h1>
+        <p class="subtitle">Assign a trainer to a member</p>
 
-        <form id="loginForm">
-          <select id="role" required>
-            <option value="">Select account type</option>
-            <option value="members">Members</option>
-            <option value="trainers">Trainers</option>
-            <option value="managers">Managers</option>
+        <form id="assignForm">
+          <select id="trainer" required>
+            <option value="" disabled selected>Select a Trainer...</option>
+            <option value="t1">David Chen (Strength & Conditioning)</option>
+            <option value="t2">Emily Rodriguez (Yoga & Pilates)</option>
+            <option value="t3">Michael Brown (Cardio & Agility)</option>
           </select>
-          <input type="email" id="email" placeholder="Email address" required />
-          <input type="password" id="password" placeholder="Password" required />
-          <button type="submit">Login</button>
-        </form>
 
-        <p class="register-text">
-          Don’t have an account?
-          <a href="./register.html">Register</a>
-        </p>
+          <select id="member" required>
+            <option value="" disabled selected>Select a Member...</option>
+            <option value="m1">Olivia Vance</option>
+            <option value="m2">Leo Garcia</option>
+            <option value="m3">Chloe Adams</option>
+            <option value="m4">Max Sterling</option>
+            <option value="m5">Mia Petrova</option>
+            <option value="m6">Ben Thompson</option>
+          </select>
+
+          <button type="submit">Assign Trainer</button>
+        </form>
 
         <p id="message"></p>
       </div>
@@ -198,44 +183,26 @@
       }
     }
 
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
+    document.getElementById("assignForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const role = document.getElementById("role").value;
+      const trainer = document.getElementById("trainer").value;
+      const member = document.getElementById("member").value;
       const message = document.getElementById("message");
 
-      if (role === "" || email === "" || password === "") {
-        showMessage(message, "Please select account type and enter email/password.", "error");
+      if (trainer === "" || member === "") {
+        showMessage(message, "Please select both a trainer and a member.", "error");
         return;
       }
 
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(email)) {
-        showMessage(message, "Please enter a valid email address.", "error");
-        return;
-      }
-
-      if (password.length < 8) {
-        showMessage(message, "Password must be at least 8 characters.", "error");
-        return;
-      }
-
-      // Demo-only validation until backend login API is connected.
-      const demoAccounts = {
-        members: { email: "member@fitness.com", password: "Fitness123" },
-        trainers: { email: "trainer@fitness.com", password: "Trainer123" },
-        managers: { email: "manager@fitness.com", password: "Manager123" }
-      };
-
-      const account = demoAccounts[role];
-      if (!account || email !== account.email || password !== account.password) {
-        showMessage(message, "Incorrect account type, email or password.", "error");
-        return;
-      }
-
-      showMessage(message, "Login successful. Redirecting to " + role + " dashboard...", "success");
+      // Shows success message and resets the form
+      showMessage(message, "Trainer Assigned Successfully!", "success");
+      
+      setTimeout(() => {
+        document.getElementById("assignForm").reset();
+        message.textContent = "";
+        message.classList.remove("success");
+      }, 3000);
     });
   </script>
 </body>

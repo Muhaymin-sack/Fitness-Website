@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Fitness</title>
+  <style>
+    :root {
+      --bg-page: #F4F4F4;      
+      --card-white: #FFFFFF;
+      --pure-black: #000000;
+      --gym-red: #BA181B;      
+      --text-grey: #777777;    
+      --border-thin: #EAEAEA;  
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--pure-black);
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .main-container { width: 100%; max-width: 1100px; }
+
+    /* FIXED HEADER: CLEAN BOLD SANS-SERIF */
+    header { text-align: center; margin-bottom: 70px; }
+
+    header h1 {
+      /* Switching from Impact to a cleaner Arial Black / Helvetica stack */
+      font-family: 'Arial Black', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 72px; 
+      text-transform: uppercase;
+      line-height: 1.0; 
+      letter-spacing: -2px; /* Reduced the negative spacing for clarity */
+      font-weight: 900;
+      display: block;
+    }
+
+    header h1 .red-text { color: var(--gym-red); display: block; }
+
+    header p {
+      font-family: Arial, sans-serif;
+      color: var(--text-grey);
+      font-size: 14px;
+      margin-top: 15px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* GRID & CARDS */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .card {
+      background-color: var(--card-white);
+      border: 1px solid var(--border-thin);
+      padding: 60px 45px;
+      position: relative;
+      border-radius: 0px; 
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 35px; left: 45px;
+      width: 25px; height: 8px;
+      background: var(--pure-black);
+    }
+
+    .card.accent::before { background: var(--gym-red); }
+
+    .card-label {
+      position: absolute;
+      top: 33px; right: 45px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-grey);
+      letter-spacing: 2px;
+    }
+
+    /* CLEANER SECTION HEADING */
+    .card h2 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 28px;
+      text-transform: uppercase;
+      margin: 25px 0 40px 0;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    /* FORM STYLING */
+    .form-group { margin-bottom: 30px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      border-bottom: 1px solid var(--border-thin);
+      font-size: 15px;
+      outline: none;
+      background: transparent;
+      border-radius: 0;
+      color: var(--pure-black);
+    }
+
+    select:focus, input:focus { border-bottom-color: var(--gym-red); }
+
+    /* GHOST BUTTON MATCHING 'SELECT PLAN' */
+    .primary-btn {
+      width: 100%;
+      padding: 18px;
+      background: transparent;
+      border: 1px solid var(--pure-black);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 5px; 
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 20px;
+    }
+
+    .primary-btn:hover { background: var(--pure-black); color: #FFF; }
+
+    /* CALENDAR UI */
+    .cal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .cal-nav h3 { 
+        font-family: 'Arial Black', sans-serif; 
+        text-transform: uppercase; 
+        font-size: 18px; 
+    }
+
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+
+    .day-name {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--text-grey);
+      margin-bottom: 20px;
+    }
+
+    .day {
+      aspect-ratio: 1;
+      border: 1px solid var(--border-thin);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .day.empty { border: none; }
+    .day:hover:not(.empty) { background: #F9F9F9; border-color: var(--pure-black); }
+
+    .event-indicator {
+      width: 4px; height: 4px;
+      background: var(--gym-red);
+      border-radius: 50%;
+      position: absolute;
+      bottom: 8px;
+    }
+
+    /* SCHEDULE LIST */
+    .schedule-viewer {
+      margin-top: 40px;
+      border-top: 1px solid var(--border-thin);
+      padding-top: 30px;
+    }
+
+    .schedule-viewer h4 {
+      font-size: 11px; font-weight: 900; text-transform: uppercase; color: var(--text-grey); margin-bottom: 20px; letter-spacing: 2px;
+    }
+
+    .class-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #F4F4F4;
+    }
+
+    .class-info b { font-size: 14px; text-transform: uppercase; display: block; letter-spacing: 1px; }
+    .class-time { font-family: 'Arial Black', sans-serif; color: var(--gym-red); font-size: 14px; }
+
+    @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="main-container">
+  <header>
+    <h1>ADMIN <span class="red-text">DASHBOARD</span></h1>
+    <p>Flexible slot management designed to help you reach your fitness goals, no matter where you are starting from.</p>
+  </header>
+
+  <div class="dashboard-grid">
+    
+    <div class="card">
+      <span class="card-label">Management</span>
+      <h2>SCHEDULE SESSION</h2>
+      <form id="slotForm">
+        <div class="form-group">
+          <label>ACTIVITY NAME</label>
+          <select id="activity" required>
+            <option value="" disabled selected>Select Activity</option>
+            <option>HIIT Class</option><option>Yoga & Pilates</option><option>Weightlifting</option><option>Boxing</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>TRAINER</label>
+          <select id="trainer" required>
+            <option value="" disabled selected>Select Trainer</option>
+            <option>David Chen</option><option>Emily Rodriguez</option><option>Michael Brown</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>DATE</label><input type="date" id="date" required></div>
+          <div class="form-group">
+            <label>TIME SLOT</label>
+            <select id="time" required>
+              <option value="" disabled selected>Select Time</option>
+              <option>09:00 AM</option><option>12:00 PM</option><option>05:00 PM</option><option>07:00 PM</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="primary-btn">UPDATE CALENDAR</button>
+      </form>
+    </div>
+
+    <div class="card accent">
+      <span class="card-label">Overview</span>
+      <div class="cal-nav">
+        <button id="prevBtn" style="font-weight: bold;">&larr;</button>
+        <h3 id="monthLabel">May 2026</h3>
+        <button id="nextBtn" style="font-weight: bold;">&rarr;</button>
+      </div>
+      <div class="calendar-grid">
+        <div class="day-name">Sun</div><div class="day-name">Mon</div><div class="day-name">Tue</div>
+        <div class="day-name">Wed</div><div class="day-name">Thu</div><div class="day-name">Fri</div><div class="day-name">Sat</div>
+      </div>
+      <div id="daysGrid" class="calendar-grid"></div>
+
+      <div class="schedule-viewer">
+        <h4 id="viewerDate">DAILY SCHEDULE</h4>
+        <div id="classList">Select a date to view classes.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let viewDate = new Date();
+  let scheduleData = {}; 
+
+  function render() {
+    const grid = document.getElementById("daysGrid");
+    grid.innerHTML = "";
+    const y = viewDate.getFullYear(), m = viewDate.getMonth();
+    document.getElementById("monthLabel").innerText = new Date(y, m).toLocaleString('default', { month: 'long', year: 'numeric' }).toUpperCase();
+
+    const first = new Date(y, m, 1).getDay();
+    const last = new Date(y, m + 1, 0).getDate();
+
+    for (let i = 0; i < first; i++) grid.innerHTML += `<div class="day empty"></div>`;
+
+    for (let i = 1; i <= last; i++) {
+      const dateKey = `${y}-${String(m + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+      const dayEl = document.createElement("div");
+      dayEl.className = "day";
+      dayEl.innerText = i;
+      
+      if (scheduleData[dateKey] && scheduleData[dateKey].length > 0) {
+        dayEl.innerHTML += `<div class="event-indicator"></div>`;
+      }
+
+      dayEl.onclick = () => showClasses(dateKey);
+      grid.appendChild(dayEl);
+    }
+  }
+
+  function showClasses(dateKey) {
+    document.getElementById("viewerDate").innerText = "SCHEDULE FOR: " + dateKey;
+    const list = document.getElementById("classList");
+    const dayEvents = scheduleData[dateKey] || [];
+
+    if (dayEvents.length === 0) {
+      list.innerHTML = "No classes scheduled for this day.";
+      return;
+    }
+
+    list.innerHTML = dayEvents.map(ev => `
+      <div class="class-item">
+        <div class="class-info">
+          <b>${ev.activity}</b>
+          <span>Trainer: ${ev.trainer}</span>
+        </div>
+        <div class="class-time">${ev.time}</div>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById("slotForm").onsubmit = (e) => {
+    e.preventDefault();
+    const d = document.getElementById("date").value;
+    const newEntry = {
+      activity: document.getElementById("activity").value,
+      trainer: document.getElementById("trainer").value,
+      time: document.getElementById("time").value
+    };
+
+    if (!scheduleData[d]) scheduleData[d] = [];
+    scheduleData[d].push(newEntry);
+
+    render();
+    showClasses(d);
+    document.getElementById("slotForm").reset(); 
+    alert("CALENDAR UPDATED SUCCESSFULLY");
+  };
+
+  document.getElementById("prevBtn").onclick = () => { viewDate.setMonth(viewDate.getMonth() - 1); render(); };
+  document.getElementById("nextBtn").onclick = () => { viewDate.setMonth(viewDate.getMonth() + 1); render(); };
+
+  render();
+</script>
+
+</body>
+</html>
