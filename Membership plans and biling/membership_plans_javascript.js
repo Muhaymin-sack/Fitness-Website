@@ -348,7 +348,7 @@ function downloadReceipt() {
     var o = window._order;
     
     var html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' +
-        '<title>FitCore Receipt ' + o.ref + '</title>' +
+        '<title>Fitness Receipt ' + o.ref + '</title>' +
         '<style>' +
             'body{font-family:Georgia,serif;max-width:560px;margin:48px auto;color:#0B090A;font-size:14px;line-height:1.7}' +
             'h1{font-family:Arial,sans-serif;font-size:26px;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}' +
@@ -376,8 +376,8 @@ function downloadReceipt() {
             '<tr><td>VAT (20%)</td><td>£' + o.vat.toFixed(2) + '</td></tr>' +
             '<tr class="total"><td>Total paid</td><td>£' + o.total.toFixed(2) + '</td></tr>' +
         '</table>' +
-        '<div class="foot">Thank you for joining FitCore. Please keep this receipt for your records. ' +
-            'For any queries contact support@fitcore.co.uk &nbsp;·&nbsp; fitcore.co.uk</div>' +
+        '<div class="foot">Thank you for joining to our team. Please keep this receipt for your records. ' +
+            'For any queries contact support@fitness.co.uk &nbsp;·&nbsp; fitness.co.uk</div>' +
         '<script>window.onload=function(){window.print();}<\/script>' +
         '</body></html>';
 
