@@ -31,6 +31,33 @@ body {
 }
 
 /* --------------------------------------
+           Navigation bar
+---------------------------------------- */
+.navbar-item img {
+    max-height: none !important;
+    height: 70px;
+}
+.navbar-item:hover {
+    background-color: var(--red-hover);
+}
+
+.logo-item {
+    left: 70px;
+}
+
+.signup-button{
+    background-color: #6C757D;
+    color: white;
+}
+
+.signup-button:hover {
+    transition: 90ms ease-in-out;
+    background-color: #61686f;
+    color: white;
+}
+
+
+/* --------------------------------------
            page wrapper
 ---------------------------------------- */
 .wrap {
