@@ -97,6 +97,16 @@
       font-size: 14px;
     }
 
+    select {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 14px;
+      background-color: #FFFFFF;
+      color: #212529;
+    }
+
     .checkbox-row {
       display: flex;
       align-items: flex-start;
@@ -179,6 +189,13 @@
           <label for="fullName">Full name</label>
           <input type="text" id="fullName" required />
 
+          <label for="role">Account type</label>
+          <select id="role" required>
+            <option value="members">Members</option>
+            <option value="trainers">Trainers</option>
+            <option value="managers">Managers</option>
+          </select>
+
           <label for="email">Email address</label>
           <input type="email" id="email" required />
 
@@ -210,9 +227,17 @@
   <script>
     const form = document.getElementById("registerForm");
     const message = document.getElementById("message");
+    const isBackendOrigin =
+      window.location.protocol === "http:" &&
+      window.location.hostname === "127.0.0.1" &&
+      window.location.port === "5000";
+    const apiBase = isBackendOrigin ? "" : "http://127.0.0.1:5000";
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
+      const fullName = document.getElementById("fullName").value.trim();
+      const role = document.getElementById("role").value;
+      const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
       const terms = document.getElementById("terms").checked;
@@ -232,8 +257,26 @@
         return;
       }
 
-      message.textContent = "Registration successful. You can now login.";
-      message.classList.add("success");
+      try {
+        const response = await fetch(apiBase + "/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ fullName, email, password, role })
+        });
+
+        const data = await response.json();
+        message.textContent = data.message || "Unable to register right now.";
+        message.classList.add(response.ok ? "success" : "error");
+
+        if (response.ok) {
+          form.reset();
+        }
+      } catch (error) {
+        message.textContent = "Request failed: " + (error && error.message ? error.message : "Unknown network error");
+        message.classList.add("error");
+      }
     });
   </script>
 </body>
