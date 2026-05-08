@@ -6,16 +6,82 @@
     <title> Gym Membership Plans</title>
     <link rel="stylesheet" href="style/base.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link 
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
 </head>
 <body>
     
-    <div class="nav-bar">
+    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: var(--red) !important;">
+      <div class="navbar-brand">
+        <a class="navbar-item logo-item" href="home_page.html">
+            <img src="images/Fitness Website logo.png ">
+        </a>
+    
+        <a role="button" class="navbar-burger" style="color: var(--ink) !important;" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+  
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-end navbar-section">
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Home
+            </a>
+          
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Store
+            </a>
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Membership Plans
+            </a>
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Classes
+            </a>
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Personal Training
+            </a>
         
-    </div>
-    
-    
+          
+            <div class="buttons">
+              <a class="button signup-button">
+                <strong>Sign up</strong>
+              </a>
+              <a class="button has-background-primary-05 has-text-primary-05-invert login-button">
+                Log in
+              </a>
+            </div>
+        </div>
+        
+      </div>
+    </nav>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+          // Get all "navbar-burger" elements
+          const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+          // Add a click event on each of them
+          $navbarBurgers.forEach( el => {
+            el.addEventListener('click', () => {
+            
+              // Get the target from the "data-target" attribute
+              const target = el.dataset.target;
+              const $target = document.getElementById(target);
+            
+              // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+              el.classList.toggle('is-active');
+              $target.classList.toggle('is-active');
+            
+            });
+          });
+      
+        });
+    </script>
 
 </body>
 </html>
