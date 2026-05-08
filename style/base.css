@@ -56,6 +56,12 @@ body {
     background-color: #2d6645 !important;
 }
 
+
+#hero-section img {
+    height: 500px;
+    width: auto;
+}
+
 /* --------------------------------------
            page wrapper
 ---------------------------------------- */
