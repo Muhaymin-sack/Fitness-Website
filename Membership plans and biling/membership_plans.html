@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Gym Membership Plans</title>
+        <link rel="stylesheet" href="membership_plans_style.css" >
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    </head>
+
+    <body>
+        <div class="wrap">
+
+            <!-- =======================
+                    HERO SECTION
+            ========================= -->
+            <div class="intro">
+                <div class="intro-tag">Membership Plans</div>
+                <h1>Choose Your<br><strong>Strength</strong></h1>
+                <p>Flexibile membership plans designed to help your reach your fitness goals, no matter where you are starting from.</p>
+            </div>
+
+
+            <!-- =======================
+                    BILLING TOGGLE
+            ========================= -->
+            <div class="cycle-row">
+                <!-- Monthly label - clicking on it also switches the toggle -->
+                <span class="cycle-lbl on" id="lbl-mo" onclick="setYearly(false)">Monthly</span>
+                <label class="switch">
+                    <input type="checkbox" id="tog">
+                    <div class="track"><div class="thumb"></div></div>
+                </label>
+
+                <span class="cycle-lbl" id="lbl-yr" onclick="setYearly(true)">Yearly</span>
+
+                <!-- this oly visible when yearly is clicked -->
+                <span class="pill" id="save-pill">Save up to 20%</span>
+            </div>
+
+
+            <!-- =======================
+                    PLANS GRID
+            ========================= -->
+            <div class="grid">
+
+                <!-- Basic -->
+                <div class="card" data-key="basic" onclick="pick('basic')">
+                    <div class="icon">
+
+                        <!-- dumbbell icon -->
+                        <svg viewBox="0 0 34 34" fill="none">
+                            <rect x="4"  y="14" width="6" height="6" rx="1" fill="#6C757D"/>
+                            <rect x="24" y="14" width="6" height="6" rx="1" fill="#6C757D"/>
+                            <rect x="10" y="11" width="14" height="12" rx="1" fill="#6C757D"/>
+                        </svg>
+                    </div>
+                    <span class="tag tag-plain">Starter</span>
+                    <div class="card-name">Basic</div>
+                    <div class="card-sub">Beginners &amp; casual users</div>
+                    <div class="price-row">
+                        <span class="currency">£</span>
+                        <span class="amount" id="p-basic">25</span>
+                        <span class="per">/mo</span>
+                    </div>
+                    <div class="saving-note" id="n-basic">&nbsp;</div>
+                    <div class="rule"></div>
+                    <ul class="features">
+                        <li><span class="yes">✔︎</span> Gym floor access (weights + cardio)</li>
+                        <li><span class="yes">✔︎</span> Off-peak &amp; standard hours</li>
+                        <li><span class="yes">✔︎</span> Changing rooms</li>
+                        <li><span class="no">✖︎</span> Group classes</li>
+                        <li><span class="no">✖︎</span> Locker access</li>
+                        <li><span class="no">✖︎</span> Premium zones</li>
+                    </ul>
+                    <button class="btn" id="b-basic">Select Plan</button>
+                </div>
+
+                <!-- Standard -->
+                <div class="card" data-key="standard" onclick="pick('standard')">
+                    <div class="icon">
+
+                        <!-- bold dumbbell icon than basic  -->
+                        <svg viewBox="0 0 34 34" fill="none">
+                            <rect x="3"  y="13" width="7" height="8" rx="1" fill="#BA181B"/>
+                            <rect x="24" y="13" width="7" height="8" rx="1" fill="#BA181B"/>
+                            <rect x="10" y="10" width="14" height="14" rx="1" fill="#BA181B"/>
+                        </svg>
+                    </div>
+                    <span class="tag tag-red">Popular</span>
+                    <div class="card-name">Standard</div>
+                    <div class="card-sub">Regular gym-goers</div>
+                    <div class="price-row">
+                        <span class="currency">£</span>
+                        <span class="amount" id="p-standard">45</span>
+                        <span class="per">/mo</span>
+                    </div>
+                    <div class="saving-note" id="n-standard">&nbsp;</div>
+                    <div class="rule"></div>
+                    <ul class="features">
+                        <li><span class="yes">✔︎</span> Full gym floor access</li>
+                        <li><span class="yes">✔︎</span> All group classes included</li>
+                        <li><span class="yes">✔︎</span> Full opening hours</li>
+                        <li><span class="yes">✔︎</span> Locker access</li>
+                        <li><span class="yes">✔︎</span> Free induction session</li>
+                        <li><span class="no">✖︎</span> Premium zones</li>
+                    </ul>
+                    <button class="btn" id="b-standard">Select Plan</button>
+                </div>
+
+                <!-- Premium -->
+                <div class="card" data-key="premium" onclick="pick('premium')">
+                    <div class="icon">
+
+                        <!-- star shape for premium tier  -->
+                        <svg viewBox="0 0 34 34" fill="none">
+                            <polygon points="17,3 20,12 30,12 22,18 25,28 17,22 9,28 12,18 4,12 14,12" fill="#BA181B"/>
+                        </svg>
+                    </div>
+                    <span class="tag tag-red">Elite</span>
+                    <div class="card-name">Premium</div>
+                    <div class="card-sub">Comfort &amp; full flexibility</div>
+                    <div class="price-row">
+                        <span class="currency">£</span>
+                        <span class="amount" id="p-premium">65</span>
+                        <span class="per">/mo</span>
+                    </div>
+                    <div class="saving-note" id="n-premium">&nbsp;</div>
+                    <div class="rule"></div>
+                    <ul class="features">
+                        <li><span class="yes">✔︎</span> Full gym + classes + premium zones</li>
+                        <li><span class="yes">✔︎</span> Sauna, steam &amp; functional area</li>
+                        <li><span class="yes">✔︎</span> Priority class booking</li>
+                        <li><span class="yes">✔︎</span> Locker access</li>
+                        <li><span class="yes">✔︎</span> 1 free guest passes / month</li>
+                        <li><span class="yes">✔︎</span> Merch &amp; supplement discounts</li>
+                        <li><span class="yes">✔︎</span> Dedicated locker</li>
+                    </ul>
+                    <button class="btn" id="b-premium">Select Plan</button>
+                </div>
+                
+
+                <!-- Student -->
+                <div class="card" data-key="student" onclick="pick('student')">
+                    <div class="icon">
+
+                        <!-- graduation cap shape -->
+                        <svg viewBox="0 0 34 34" fill="none">
+                            <path d="M17 5L3 12l14 7 14-7-14-7z" fill="#6C757D"/>
+                            <path d="M7 15v7c0 3 4 6 10 6s10-3 10-6v-7" stroke="#6C757D" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <span class="tag tag-plain">Student</span>
+                    <div class="card-name">Student</div>
+                    <div class="card-sub">College &amp; university members</div>
+                    <div class="price-row">
+                        <span class="currency">£</span>
+                        <span class="amount" id="p-student">20</span>
+                        <span class="per">/mo</span>
+                    </div>
+                    <div class="saving-note" id="n-student">&nbsp;</div>
+                    <div class="rule"></div>
+                    <ul class="features">
+                        <li><span class="yes">✔︎</span> Standard gym access + all classes</li>
+                        <li><span class="yes">✔︎</span> Discounted rate (valid Student ID)</li>
+                        <li><span class="yes">✔︎</span> Full opening hours</li>
+                        <li><span class="yes">✔︎</span> Locker access</li>
+                        <li><span class="no">✖︎</span> Guest passes</li>
+                        <li><span class="no">✖︎</span> Premium zones</li>
+                    </ul>
+                    <button class="btn" id="b-student">Select Plan</button>
+                </div>
+            </div>
+
+
+            <!-- =======================================
+              order summary/ billing details - 
+              only visible after selecting a plan  
+            ======================================== -->
+
+            <div id="summary">
+                <div class="summary-head">
+                    <div class="summary-title">Order Summary</div>
+                    <div class="cycle-tag" id="cycle-label">Monthly billing</div>
+                </div>
+
+                <div class="summary-body">
+                    <!-- left column shows price breakdown -->
+                    <div class="summary-col">
+                        <div class="row">
+                            <span class="lbl">Plan</span>
+                            <span class="val" id="s-plan">-</span>
+                        </div>
+                        <div class="row">
+                            <span class="lbl">Billing cycle</span>
+                            <span class="val" id="s-cycle">Monthly</span>
+                        </div>
+                        <div class="row">
+                            <span class="lbl">Base price</span>
+                            <span class="val" id="s-base">£0.00</span>
+                        </div>
+
+                        <!-- annual discont row, only visiable when yearly is on -->
+                        <div class="row" id="disc-row" style="display: none;">
+                            <span class="lbl green">Annual discount (20%)</span>
+                            <span class="val green" id="s-disc">-£0.00</span>
+                        </div>
+
+                        <div class="row">
+                            <span class="lbl">Subtotal</span>
+                            <span class="val" id="s-sub">£0.00</span>
+                        </div>
+                        <div class="row">
+                            <span class="lbl">VAT (20%)</span>
+                            <span class="val" id="s-vat">£0.00</span>
+                        </div>
+
+                        <!-- GRAND TOTAL -->
+                        <div class="row total-row">
+                            <span class="lbl">Total due</span>
+                            <span class="val" id="s-total">£0.00</span>
+                        </div>
+                    </div>
+
+
+                    <!-- right column shows selected plan details -->
+                    <div class="summary-col">
+
+                        <div class="plan-overview-name" id="s-name">Plan<br><span>Name</span></div>
+                        <div class="plan-overview-desc" id="s-desc">-</div>
+                        <ul class="mini-features" id="s-feats"></ul>
+                        <button class="cta" onclick="checkout()">
+                            Poceed to Checkout
+                            <!-- right-arrow icon -->
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                <path d="M2.5 8.5h12M9 4.5l4.5 4-4.5 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <div class="ssl-note">
+                            <!-- padlock icon -->
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                <rect x="1.5" y="4.5" width="7" height="5" rx="1" stroke="#6C757D" stroke-width="0.9"/>
+                                <path d="M3.5 4.5V3a1.5 1.5 0 013 0v1.5" stroke="#6C757D" stroke-width="0.9"/>
+                            </svg>
+                            Secure 256-bit SSL checkout
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- slides in from right when a plan is selected -->
+        <div class="toast" id="toast">
+            <div class="toast-dot"></div>
+            <span id="toast-text">Plan selected</span>
+        </div>
+<script src="membership_plans_javascript.js"></script>
+
+        <!-- ======================================================
+         checkout model overlay, hidden until checkout() is called
+        =========================================================== -->
+
+        <div id="modal">
+            <div class="modal-box">
+
+                <!-- close button -->
+                <button class="modal-close" onclick="closeModal()" aria-label="Close checkout">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+
+                <!-- payment form screen -->
+                <div id="pay-screen">
+                    <div class="modal-inner">
+
+                        <!-- left: payment method -->
+                        <div class="pay-left">
+                            <div class="pay-heading">Secure Checkout</div>
+                            <div class="pay-sub">All transactions are encrypted and processed securely.</div>
+
+                            <!-- method selector tabs -->
+                            <div class="method-tabs">
+
+                                <!-- credit/debit cards method -->
+                                <button class="pay-tab on" data-method="card" onclick="switchMethod('card')">
+                                    <!-- simple card icon -->
+                                    <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+                                        <rect x="1" y="1" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/>
+                                        <line x1="1" y1="5" x2="17" y2="5" stroke="currentColor" stroke-width="1.3"/>
+                                    </svg>
+                                    Card
+                                </button>
+
+                                <!-- paypal method -->
+                                <button class="pay-tab" data-method="paypal" onclick="switchMethod('paypal')">
+                                    <!-- P initial for paypal -->
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.3"/>
+                                        <text x="5.2" y="12" font-size="9" font-family="Arial" font-weight="700" fill="currentColor">P</text>
+                                    </svg>
+                                    Paypal
+                                </button>
+
+                                <!-- apple pay mehtod -->
+                                <button class="pay-tab" data-method="applepay" onclick="switchMethod('applepay')">
+                                    <!-- apple icon -->
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 1.3-1.1 2-.7 1.1-1.7 
+                                        2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 11 1 8.5 2 6.7c.6-1.2 1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 
+                                        2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="currentColor"/>
+                                    </svg>
+                                    Apple Pay
+                                </button>
+
+                                <!-- google pay mehtod -->
+                                <button class="pay-tab" data-method="googlepay" onclick="switchMethod('googlepay')">
+                                    <!--  G google -->
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.3"/>
+                                        <text x="4.5" y="12" font-size="9" font-family="Arial" font-weight="700" fill="currentColor">G</text>
+                                    </svg>
+                                    Google Pay
+                                </button>
+                            </div>
+
+                            <!-- palel: credit / debit card -->
+                            <div id="panel-card" class="pay-panel">
+
+                                <!-- visual card preview updates live as user types -->
+                                <div class="card-preview">
+                                    <div class="card-band" id="card-band"></div>
+                                    <div class="card-chip">
+                                        <svg width="28" height="22" viewBox="0 0 28 22">
+                                            <rect width="28" height="22" rx="3" fill="#d4a843"/>
+                                            <line x1="9" y1="0" x2="9" y2="22" stroke="#b8912e" stroke-width="1"/>
+                                            <line x1="19" y1="0" x2="19" y2="22" stroke="#b8912e" stroke-width="1"/>
+                                            <line x1="0" y1="7" x2="28" y2="7" stroke="#b8912e" stroke-width="1"/>
+                                            <line x1="0" y1="15" x2="28" y2="15" stroke="#b8912e" stroke-width="1"/>
+                                        </svg>
+                                    </div>
+                                    <div class="card-num-prev" id="prev-num">・・・・・ •••• •••• ・・・・</div>
+                                    <div class="card-bottom-prev">
+                                        <div>
+                                            <div class="card-prev-lbl">Card Holder</div>
+                                            <div class="card-prev-val" id="prev-name">YOUR NAME</div>
+                                        </div>
+                                        <div>
+                                            <div class="card-prev-lbl">Expires</div>
+                                            <div class="card-prev-val" id="prev-exp">MM/YY</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- card input fields -->
+                                <div class="field">
+                                    <label>Card number</label>
+                                    <input id="card-num" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" 
+                                        maxlength="19" oninput="fmtCard(this);clearErr(this)" />
+                                    <span class="hint"></span>
+                                </div>
+                                <div class="field-row">
+                                    <div class="field">
+                                        <label>Expiry date</label>
+                                        <input id="card-exp" type="text" inputmode="numeric" placeholder="MM/YY"
+                                            maxlength="5" oninput="fmtExpiry(this);clearErr(this)" />
+                                        <span class="hint"></span>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>CVV</label>
+                                        <input id="card-cvv" type="text" inputmode="numeric" placeholder="•••ׁ" 
+                                            maxlength="4" oninput="fmtCvv(this);clearErr(this)" />
+                                        <span class="hint"></span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label>Cardholder name</label>
+                                    <input id="card-name" type="text" placeholder="As it appears on the card"
+                                        oninput="clearErr(this);updateCardPreview()" />
+                                    <span class="hint"></span>
+                                </div>
+                                <button id="pay-btn-card" class="pay-go" onclick="payByCard()">Pay Now</button>
+                            </div>
+                            
+
+                            <!-- panel: paypal -->
+                            <div id="panel-paypal" class="pay-panel" style="display: none;">
+                                <div class="wallet-info">
+                                    <div class="wallet-logo paypal-logo">Pay<span>Pal</span></div>
+                                    <p>You will be securely redirected to Paypal to complete your payment. No card details are required here.</p>
+                                </div>
+                                <button id="pay-btn-paypal" class="pay-go paypal-btn" onclick="payByPayPal()">Continue with Paypal</button>
+                            </div>
+
+                            <!-- panel: apple pay -->
+                            <div id="panel-applepay" class="pay-panel" style="display: none;">
+                                <div class="wallet-info">
+                                    <div class="wallet-logo apple-logo">
+                                        <svg width="32" height="32" viewBox="0 0 16 16" fill="none">
+                                            <path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 
+                                            1.3-1.1 2-.7 1.1-1.7 2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 11 1 8.5 2 6.7c.6-1.2 
+                                            1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="#0B090A"/>
+                                        </svg>
+                                        Apple Pay
+                                    </div>
+                                    <p>Use Face ID, Touch ID, or Your Apple Wallet to pay instantly.</p>
+                                </div>
+                                <button id="pay-btn-applepay" class="pay-go apple-btn" onclick="payByApplePay()">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 
+                                        1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 1.3-1.1 2-.7 1.1-1.7 2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 
+                                        11 1 8.5 2 6.7c.6-1.2 1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="#fff"/></svg>
+                                    Pay with Apple Pay</button>
+                            </div>
+
+                            <!-- ── Panel: Google Pay ── -->
+                            <div id="panel-googlepay" class="pay-panel" style="display:none">
+                                <div class="wallet-info">
+                                <div class="wallet-logo google-logo">
+                                    <span style="color:#4285F4">G</span>
+                                    <span style="color:#EA4335">o</span>
+                                    <span style="color:#FBBC05">o</span>
+                                    <span style="color:#4285F4">g</span>
+                                    <span style="color:#34A853">l</span>
+                                    <span style="color:#EA4335">e</span> 
+                                    Pay
+                                </div>
+                                <p>Pay using any card saved in your Google account. Fast, secure, and no card details needed here.</p>
+                                </div>
+                                <button id="pay-btn-googlepay" class="pay-go google-btn" onclick="payByGooglePay()">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="8" cy="8" r="7" fill="#fff"/><text x="4.5" y="12" font-size="9" font-family="Arial" font-weight="700" fill="#4285F4">G</text></svg>
+                                Pay with Google Pay
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- rigth order recap -->
+                        <div class="pay-right">
+                            <div class="recap-title">Order Recap</div>
+                            <div class="recap-row">
+                                <span>Plan</span>
+                                <span id="co-plan">-</span>
+                            </div>
+                            <div class="recap-row">
+                                <span>Billing</span>
+                                <span id="co-cycle">-</span>
+                            </div>
+                            <div class="recap-row" id="co-saved-row" style="display: none;">
+                                <span class="green">Discount (20%)</span>
+                                <span class="green" id="co-saved">-</span>
+                            </div>
+                            <div class="recap-row">
+                                <span>Subtotal</span>
+                                <span id="co-sub">-</span>
+                            </div>
+                            <div class="recap-row">
+                                <span>VAT (20%)</span>
+                                <span id="co-vat">-</span>
+                            </div>
+                            <div class="recap-total">
+                                <span>Total</span>
+                                <span id="co-total">-</span>
+                            </div>
+
+                            <!-- short trust singles -->
+                            <ul class="trust-list">
+                                <li>
+                                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                                        <path d="M6.5 1L8 5h4l-3.3 2.4L9.9 12 6.5 9.6 3.1 12l1.2-4.6L1 5h4z" fill="#BA181B"/>
+                                    </svg>
+                                    Cancel or pause anytime
+                                </li>
+                                <li>
+                                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                                        <rect x="2" y="6" width="9" height="6" rx="1" stroke="#BA181B" stroke-width="1.1"/>
+                                        <path d="M4 6V4a2.5 2.5 0 015 0v2" stroke="#BA181B" stroke-width="1.1"/>
+                                    </svg>
+                                    256-bit SSL encryption
+                                </li>
+                                <li>
+                                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                                        <circle cx="6.5" cy="6.5" r="5.5" stroke="#BA181B" stroke-width="1.1"/>
+                                        <path d="M4.5 6.5l1.5 1.5 2.5-2.5" stroke="#BA181B" stroke-width="1.1" stroke-linecap="round"/>
+                                    </svg>
+                                    PCI-DSS compliant
+                                </li>
+                                <li>
+                                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                                        <rect x="1" y="3" width="11" height="7" rx="1" stroke="#BA181B" stroke-width="1.1"/>
+                                        <line x1="1" y1="6" x2="12" y2="6" stroke="#BA181B" stroke-width="1.1"/>
+                                    </svg>
+                                    Secure payment processing
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==============================================================
+                   success / confirmation screen show afte simulatePay() completes
+                ================================================================= -->
+                <div id="done-screen" style="display: none;">
+                    <div class="done-inner">
+
+                        <!-- animated green tick -->
+                        <div class="tick-wrap">
+                            <svg class="tick-svg" viewBox="0 0 52 52" fill="none">
+                                <circle class="tick-circle" cx="26" cy="26" r="24" stroke="#2a9d5c" stroke-width="2.5"/>
+                                <path   class="tick-mark"   d="M14 26l8 8 16-16" stroke="#2a9d5c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h2 class="done-title">Payment Successful!</h2>
+                        <p class="done-sub">Welcome to ....... Your membership is now active.</p>
+
+                        <!-- confirmation details grid -->
+                        <div class="done-details">
+                            <div class="done-row"><span>Order ref</span> <strong id="done-ref">-</strong></div>
+                            <div class="done-row"><span>Plan</span> <strong id="done-plan">-</strong></div>
+                            <div class="done-row"><span>Billing</span> <strong id="done-cycle">-</strong></div>
+                            <div class="done-row"><span>Paid via</span> <strong id="done-method">-</strong></div>
+                            <div class="done-row"><span>Date</span> <strong id="done-date">-</strong></div>
+                            <div class="done-row total-done"><span>Amount paid</span> <strong id="done-total">-</strong></div>
+                        </div>
+
+                        <!-- action buttons -->
+                        <div class="done-actions">
+                            <button class="receipt-btn" onclick="downloadReceipt()">
+                                <!-- download icon -->
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                    <path d="M7.5 2v8M4.5 7l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 12h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                                </svg>
+                                Download Receipt
+                            </button>
+                            <button class="close-btn" onclick="closeModal()">Back to Plans</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
