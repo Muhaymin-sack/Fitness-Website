@@ -57,10 +57,53 @@ body {
 }
 
 
-#hero-section img {
-    height: 500px;
-    width: auto;
+.hero-section {
+    background: url('../images/gym equipment.jpg') no-repeat center center/cover;
 }
+
+/*------------------------------
+    HOME PAGE
+--------------------------------*/
+
+.overlay-text {
+    position: absolute !important;
+    top: 30%;
+    margin: auto;
+    color: #ffffff; 
+    padding: 20px 20px;  
+    text-align: center;
+}
+.home-section-left {
+    background-color: #e2dfdd;
+    flex-direction: row;
+}
+
+.home-section-right {
+    background-color: #45D976;
+    flex-direction: row-reverse;
+    
+}
+
+.home-section-img-left,
+.home-section-img-right {
+    width: 50%;
+    height: auto;
+}
+
+.home-section-button-right {
+    float: right;
+    background-color: #181D27;
+}
+
+.home-section-button-right:hover {
+    background-color: #181d27c5;
+}
+
+.process-button:active {
+    background-color: var(--red);
+    color: white !important;
+}
+
 
 /* --------------------------------------
            page wrapper
