@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trainer Dashboard | Fitness Website</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Mono&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  <link rel="stylesheet" href="Trainer_dashboard.css">
+</head>
+
+<body>
+
+<section class="section trainer-dashboard-section">
+  <div class="container">
+
+    <div class="has-text-centered mb-6">
+      <h1 class="title trainer-main-title">
+        TRAINER <span>DASHBOARD</span>
+      </h1>
+
+      <p class="trainer-subtitle">
+        Manage your fitness sessions, class schedules and member bookings from one professional dashboard.
+      </p>
+    </div>
+
+    <div class="columns is-variable is-5 is-multiline">
+
+      <div class="column is-6">
+        <div class="box trainer-card">
+          <span class="trainer-card-label">Session Management</span>
+
+          <h2 class="trainer-card-title">Schedule Session</h2>
+
+          <form id="slotForm">
+            <div class="field">
+              <label class="label">Activity Name</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="activity" required>
+                    <option value="" disabled selected>Select Activity</option>
+                    <option>HIIT Class</option>
+                    <option>Yoga & Pilates</option>
+                    <option>Weightlifting</option>
+                    <option>Boxing</option>
+                    <option>Personal Training</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Session Type</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="trainer" required>
+                    <option value="" disabled selected>Select Session Type</option>
+                    <option>Group Class</option>
+                    <option>Personal Session</option>
+                    <option>Strength Coaching</option>
+                    <option>Conditioning Session</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="columns is-variable is-4">
+              <div class="column">
+                <div class="field">
+                  <label class="label">Date</label>
+                  <div class="control">
+                    <input class="input" type="date" id="date" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column">
+                <div class="field">
+                  <label class="label">Time Slot</label>
+                  <div class="control">
+                    <div class="select is-fullwidth">
+                      <select id="time" required>
+                        <option value="" disabled selected>Select Time</option>
+                        <option>09:00 AM</option>
+                        <option>12:00 PM</option>
+                        <option>05:00 PM</option>
+                        <option>07:00 PM</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="button trainer-btn is-fullwidth">
+              Update Calendar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="column is-6">
+        <div class="box trainer-card trainer-card-accent">
+          <span class="trainer-card-label">Weekly Overview</span>
+
+          <div class="level is-mobile trainer-calendar-nav">
+            <div class="level-left">
+              <button id="prevBtn" class="button is-white trainer-arrow" aria-label="Previous Month">
+                &larr;
+              </button>
+            </div>
+
+            <div class="level-item">
+              <h3 id="monthLabel" class="trainer-month-title">May 2026</h3>
+            </div>
+
+            <div class="level-right">
+              <button id="nextBtn" class="button is-white trainer-arrow" aria-label="Next Month">
+                &rarr;
+              </button>
+            </div>
+          </div>
+
+          <div class="trainer-calendar-grid trainer-day-names">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+
+          <div id="daysGrid" class="trainer-calendar-grid"></div>
+
+          <div class="trainer-schedule-viewer">
+            <h4 id="viewerDate">Daily Schedule</h4>
+            <div id="classList" class="trainer-empty-message">
+              Select a date to view sessions.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  let viewDate = new Date();
+  let scheduleData = {};
+
+  function render() {
+    const grid = document.getElementById("daysGrid");
+    grid.innerHTML = "";
+
+    const y = viewDate.getFullYear();
+    const m = viewDate.getMonth();
+
+    document.getElementById("monthLabel").innerText =
+      new Date(y, m).toLocaleString("default", {
+        month: "long",
+        year: "numeric"
+      }).toUpperCase();
+
+    const first = new Date(y, m, 1).getDay();
+    const last = new Date(y, m + 1, 0).getDate();
+
+    for (let i = 0; i < first; i++) {
+      grid.innerHTML += `<div class="day empty"></div>`;
+    }
+
+    for (let i = 1; i <= last; i++) {
+      const dateKey = `${y}-${String(m + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+      const dayEl = document.createElement("div");
+
+      dayEl.className = "day";
+      dayEl.innerText = i;
+
+      if (scheduleData[dateKey] && scheduleData[dateKey].length > 0) {
+        dayEl.innerHTML += `<div class="event-indicator"></div>`;
+      }
+
+      dayEl.onclick = () => showClasses(dateKey);
+      grid.appendChild(dayEl);
+    }
+  }
+
+  function showClasses(dateKey) {
+    document.getElementById("viewerDate").innerText = "SCHEDULE FOR: " + dateKey;
+
+    const list = document.getElementById("classList");
+    const dayEvents = scheduleData[dateKey] || [];
+
+    if (dayEvents.length === 0) {
+      list.innerHTML = `
+        <div class="trainer-empty-message">
+          No sessions scheduled for this day.
+        </div>
+      `;
+      return;
+    }
+
+    list.innerHTML = dayEvents.map(ev => `
+      <div class="class-item">
+        <div class="class-info">
+          <b>${ev.activity}</b>
+          <span>${ev.trainer}</span>
+        </div>
+        <div class="class-time">${ev.time}</div>
+      </div>
+    `).join("");
+  }
+
+  document.getElementById("slotForm").onsubmit = (e) => {
+    e.preventDefault();
+
+    const d = document.getElementById("date").value;
+
+    const newEntry = {
+      activity: document.getElementById("activity").value,
+      trainer: document.getElementById("trainer").value,
+      time: document.getElementById("time").value
+    };
+
+    if (!scheduleData[d]) {
+      scheduleData[d] = [];
+    }
+
+    scheduleData[d].push(newEntry);
+
+    render();
+    showClasses(d);
+
+    document.getElementById("slotForm").reset();
+
+    const btn = document.querySelector(".trainer-btn");
+    const originalText = btn.innerText;
+    btn.innerText = "SUCCESS";
+
+    setTimeout(() => {
+      btn.innerText = originalText;
+    }, 2000);
+  };
+
+  document.getElementById("prevBtn").onclick = () => {
+    viewDate.setMonth(viewDate.getMonth() - 1);
+    render();
+  };
+
+  document.getElementById("nextBtn").onclick = () => {
+    viewDate.setMonth(viewDate.getMonth() + 1);
+    render();
+  };
+
+  render();
+</script>
+
+</body>
+</html>

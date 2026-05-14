@@ -1,0 +1,58 @@
+:root {
+    --red: #BA181B;
+    --white: #FFFFFF;
+    --gray: #6C757D;
+    --red-hover: #9b1315;
+    --gray-light: #e9ecef;
+    --ink: #0B090A;
+    --surface: #F7F5F4;
+    --card-bg: #FFFFFF;
+    --border: #e2dfdd;
+
+    --heading: 'Barlow Condensed', sans-serif;
+    --body: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+
+    --ease: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius: 4px;
+}
+.hero-section {
+    background: url('../images/gym equipment.jpg') no-repeat center center/cover;
+}
+
+/*------------------------------
+    HOME PAGE
+--------------------------------*/
+
+
+.process-button:active {
+    background-color: var(--red);
+    color: white !important;
+}
+
+
+
+
+.gym-card{
+
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+
+    min-height: 650px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition: 0.3s ease;
+}
+
+.gym-card:hover{
+    transform: translateY(-6px);
+
+    border-color: #F10404;
+
+    box-shadow:
+        0 20px 40px rgba(241,4,4,0.18);
+}
+
