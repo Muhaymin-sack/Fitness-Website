@@ -2,160 +2,11 @@
 
 
 {% block title %}
-    Membership Page
-{% endblock %}
-
-{% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='membership_plans_style.css') }}">
+    Payment Page
 {% endblock %}
 
 {% block content %}
-        <div class="wrap">
-
-            <!-- =======================
-                    HERO SECTION
-            ========================= -->
-            <div class="intro">
-                <div class="intro-tag">Membership Plans</div>
-                <h1>Choose Your<br><strong>Strength</strong></h1>
-                <p>Flexibile membership plans designed to help your reach your fitness goals, no matter where you are starting from.</p>
-            </div>
-
-
-            <!-- =======================
-                    BILLING TOGGLE
-            ========================= -->
-            <div class="cycle-row">
-                <!-- Monthly label - clicking on it also switches the toggle -->
-                <span class="cycle-lbl on" id="lbl-mo" onclick="setYearly(false)">Monthly</span>
-                <label class="switch">
-                    <input type="checkbox" id="tog">
-                    <div class="track"><div class="thumb"></div></div>
-                </label>
-
-                <span class="cycle-lbl" id="lbl-yr" onclick="setYearly(true)">Yearly</span>
-
-                <!-- this oly visible when yearly is clicked -->
-                <span class="pill" id="save-pill">Save up to 20%</span>
-            </div>
-            
-             <div class="grid">
-                {% for card in cards %}
-                    {% set key = card[2].lower().replace(' ', '-') %}
-                    
-                        <div class="card" data-key="{{key}}" onclick="pick('{{key}}'); selectedMembershipId='{{card[0]}}';">
-                            
-                            <div class="icon">
-                                <!-- dumbbell icon -->
-                                {{card[-1] | safe}}
-                            </div>
-                            <span class="tag tag-plain">{{card[1]}}</span>
-                            <div class="card-name">{{card[2]}}</div>
-                            <div class="card-sub">{{card[3]}}</div>
-                            <div class="price-row">
-                                <span class="currency">£</span>
-                                <span class="amount" id="p-{{key}}">222</span>
-                                <span class="per">/mo</span>
-                            </div>
-                            <div class="saving-note" id="n-{{key}}">&nbsp;</div>
-                            <div class="rule"></div>
-                            <ul class="features">
-                                {{card[5] | safe}}
-                            </ul>
-                            <button type="button" class="btn" id="b-{{key}}" onclick="selectMembership('{{card[0]}}')">
-                                Select Plan
-                            </button>
-                        </div>
-                        
-                        
-                {% endfor %}
-             </div>
-
-             <!-- =======================================
-                order summary/ billing details - 
-                only visible after selecting a plan  
-            ======================================== -->
-
-            <div id="summary">
-                <div class="summary-head">
-                    <div class="summary-title">Order Summary</div>
-                    <div class="cycle-tag" id="cycle-label">Monthly billing</div>
-                </div>
-
-                <div class="summary-body">
-                    <!-- left column shows price breakdown -->
-                    <div class="summary-col">
-                        <div class="row">
-                            <span class="lbl">Plan</span>
-                            <span class="val" id="s-plan">-</span>
-                        </div>
-                        <div class="row">
-                            <span class="lbl">Billing cycle</span>
-                            <span class="val" id="s-cycle">Monthly</span>
-                        </div>
-                        <div class="row">
-                            <span class="lbl">Base price</span>
-                            <span class="val" id="s-base">£0.00</span>
-                        </div>
-
-                        <!-- annual discont row, only visiable when yearly is on -->
-                        <div class="row" id="disc-row" style="display: none;">
-                            <span class="lbl green">Annual discount (20%)</span>
-                            <span class="val green" id="s-disc">-£0.00</span>
-                        </div>
-
-                        <div class="row">
-                            <span class="lbl">Subtotal</span>
-                            <span class="val" id="s-sub">£0.00</span>
-                        </div>
-                        <div class="row">
-                            <span class="lbl">VAT (20%)</span>
-                            <span class="val" id="s-vat">£0.00</span>
-                        </div>
-
-                        <!-- GRAND TOTAL -->
-                        <div class="row total-row">
-                            <span class="lbl">Total due</span>
-                            <span class="val" id="s-total">£0.00</span>
-                        </div>
-                    </div>
-
-
-                    <!-- right column shows selected plan details -->
-                    <div class="summary-col">
-
-                        <div class="plan-overview-name" id="s-name">Plan<br><span>Name</span></div>
-                        <div class="plan-overview-desc" id="s-desc">-</div>
-                        <ul class="mini-features" id="s-feats"></ul>
-                        <button class="cta" onclick="checkout()">
-                            Proceed to Checkout
-                            <!-- right-arrow icon -->
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-                                <path d="M2.5 8.5h12M9 4.5l4.5 4-4.5 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-
-                        <div class="ssl-note">
-                            <!-- padlock icon -->
-                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                                <rect x="1.5" y="4.5" width="7" height="5" rx="1" stroke="#6C757D" stroke-width="0.9"/>
-                                <path d="M3.5 4.5V3a1.5 1.5 0 013 0v1.5" stroke="#6C757D" stroke-width="0.9"/>
-                            </svg>
-                            Secure 256-bit SSL checkout
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- slides in from right when a plan is selected -->
-        <div class="toast" id="toast">
-            <div class="toast-dot"></div>
-            <span id="toast-text">Plan selected</span>
-        </div>
-        <script src="{{ url_for('static', filename='javascripts/membership_plans_javascript.js') }}"></script>
-        
-        <!-- ======================================================
+    <!-- ======================================================
          checkout model overlay, hidden until checkout() is called
         =========================================================== -->
 
@@ -440,6 +291,5 @@
             </div>
         </div>
 
-        
 
 {% endblock %}

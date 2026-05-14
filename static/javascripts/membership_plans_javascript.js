@@ -1,7 +1,7 @@
 // VAT AND DISCOUNTS CONSTANTS
 var VAT = 0.20;
 var DISCOUNT = 0.20;
-
+let selectedMembershipId = null;
 // PLAN DATA: BASE MONTHLY PRICE
 var plans = {
     basic: {
@@ -196,6 +196,12 @@ function checkout() {
     document.getElementById('modal').classList.add('open');
     document.body.style.overflow = 'hidden';               // prevent background scroll
 }
+function selectMembership(id) {
+    selectedMembershipId = id;
+
+    // open payment modal
+    checkout();
+}
 
 // close the modal and restore page scroll
 function closeModal() {
@@ -308,6 +314,29 @@ function payByGooglePay() {
     simulatePay('Google Pay');
 }
 
+function saveMembershipAfterPayment() {
+    if (!selectedMembershipId) {
+        flash("No membership selected.");
+        return;
+    }
+
+    fetch("/membership/" + selectedMembershipId, {
+        method: "POST"
+    })
+    .then(function (response) {
+        if (!response.ok) {
+            throw new Error("Membership could not be saved.");
+        }
+        return response.text();
+    })
+    .then(function () {
+        flash("Membership saved to your account.");
+    })
+    .catch(function () {
+        flash("Payment succeeded, but membership was not saved.");
+    });
+}
+
 // shared payment simulation, showing a processing spinner then the success screen
 function simulatePay(method) {
     var btn = document.getElementById('pay-btn-' + method.toLowerCase().replace(' ', ''));
@@ -338,6 +367,7 @@ function simulatePay(method) {
         document.getElementById('done-screen').style.display = 'block';
 
         flash('Payment successful! Welcome to .....!');
+        saveMembershipAfterPayment();
     }, 1800);
 }
 

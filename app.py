@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from flask import Flask, render_template, redirect, request, flash, session, url_for
 import sqlite3
 from flask_bcrypt import Bcrypt
@@ -194,6 +196,47 @@ def membership():
 
     return render_template("membership_page.html", cards=cards)
 
+
+
+@app.route("/membership/<int:id>", methods=["POST"])
+@login_required
+def membership_choice(id):
+    con, cur = database_connection()
+
+    today = date.today()
+    end_date = today + timedelta(days=30)
+
+    # Check if this user already has a membership
+    cur.execute(
+        "SELECT UM_id FROM Users_Membership_table WHERE User_id = ?",
+        (current_user.id,)
+    )
+    existing_membership = cur.fetchone()
+
+    if existing_membership:
+        # Update existing membership instead of inserting duplicate
+        cur.execute("""
+            UPDATE Users_Membership_table
+            SET Membership_id = ?, Start_date = ?, End_date = ?, Payment_status = ?
+            WHERE User_id = ?
+        """, (id, today, end_date, 1, current_user.id))
+
+        flash("Your membership has been updated.")
+    else:
+        # Insert only if user has no membership yet
+        cur.execute("""
+            INSERT INTO Users_Membership_table
+            (Start_date, End_date, Payment_status, User_id, Membership_id)
+            VALUES (?, ?, ?, ?, ?)
+        """, (today, end_date, 1, current_user.id, id))
+
+        flash("The membership has been added to your account.")
+
+    con.commit()
+    con.close()
+
+    return redirect(url_for("home"))
+
 @app.route("/class")
 def classes():
     pass
@@ -202,9 +245,7 @@ def classes():
 def personal_training():
     pass
 
-@app.route("/Trainer-dashboard")
-def trainer_dashboard():
-    pass
+
 
 
 if __name__ == "__main__":

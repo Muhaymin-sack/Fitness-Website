@@ -29,21 +29,25 @@
   
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end navbar-section">
-            <a class="navbar-item" style="color: var(--ink) !important;">
-              Home
+            <a class="navbar-item" href="{{url_for('home')}}" style="color: var(--ink) !important;">
+              
+              <strong>Home</strong>
             </a>
           
             <a class="navbar-item" style="color: var(--ink) !important;">
-              Store
+              
+              <strong>Store</strong>
             </a>
             <a class="navbar-item" href="{{ url_for('membership') }}" style="color: var(--ink) !important;">
-              Membership Plans
+              
+              <strong>Membership Plans</strong>
             </a>
             <a class="navbar-item" style="color: var(--ink) !important;">
-              Classes
+              
+              <strong>Classes</strong>
             </a>
             <a class="navbar-item" style="color: var(--ink) !important;">
-              Personal Training
+              <strong>Personal Training</strong>
             </a>
             
             {% if current_user.is_authenticated %}
