@@ -1,0 +1,314 @@
+:root {
+  --red: #BA181B;
+  --white: #FFFFFF;
+  --gray: #6C757D;
+  --red-hover: #9b1315;
+  --gray-light: #e9ecef;
+  --ink: #0B090A;
+  --surface: #F7F5F4;
+  --card-bg: #FFFFFF;
+  --border: #e2dfdd;
+
+  --heading: 'Barlow Condensed', sans-serif;
+  --body: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+
+  --ease: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 4px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--body);
+  color: var(--ink);
+  background: var(--surface);
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+.trainer-dashboard-section {
+  background: var(--surface);
+  padding-top: 80px;
+  padding-bottom: 100px;
+}
+
+.trainer-main-title {
+  font-family: var(--heading);
+  font-size: clamp(52px, 8vw, 82px);
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.trainer-main-title span {
+  display: block;
+  color: var(--red);
+}
+
+.trainer-subtitle {
+  max-width: 500px;
+  margin: 20px auto 0;
+  color: var(--gray);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.trainer-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 60px 45px;
+  box-shadow: none;
+}
+
+.trainer-card::before {
+  content: "";
+  position: absolute;
+  top: 35px;
+  left: 45px;
+  width: 25px;
+  height: 8px;
+  background: var(--ink);
+  border-radius: 1px;
+}
+
+.trainer-card-accent::before {
+  background: var(--red);
+}
+
+.trainer-card-label {
+  position: absolute;
+  top: 33px;
+  right: 45px;
+  font-family: var(--heading);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gray);
+  letter-spacing: 2px;
+}
+
+.trainer-card-title {
+  font-family: var(--heading);
+  font-size: 36px;
+  text-transform: uppercase;
+  margin: 25px 0 40px;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.trainer-card .label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+
+.trainer-card .input,
+.trainer-card .select select {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink);
+  font-size: 15px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.trainer-card .input:focus,
+.trainer-card .select select:focus {
+  border-bottom-color: var(--red);
+  box-shadow: none;
+}
+
+.trainer-card .select:not(.is-multiple):not(.is-loading)::after {
+  border-color: var(--red);
+}
+
+.trainer-btn {
+  margin-top: 20px;
+  padding: 18px;
+  height: auto;
+  background: transparent;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--heading);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  transition: var(--ease);
+}
+
+.trainer-btn:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.trainer-calendar-nav {
+  margin-bottom: 40px;
+}
+
+.trainer-month-title {
+  font-family: var(--heading);
+  text-transform: uppercase;
+  font-size: 22px;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.trainer-arrow {
+  border: none;
+  color: var(--gray);
+  font-size: 24px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.trainer-arrow:hover {
+  color: var(--red);
+  background: transparent;
+}
+
+.trainer-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.trainer-day-names {
+  margin-bottom: 20px;
+}
+
+.trainer-day-names div {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.day {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  position: relative;
+  border-radius: var(--radius);
+  transition: var(--ease);
+  font-family: var(--mono);
+  cursor: pointer;
+}
+
+.day.empty {
+  border: none;
+  cursor: default;
+}
+
+.day:hover:not(.empty) {
+  background: var(--gray-light);
+  border-color: var(--ink);
+}
+
+.event-indicator {
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 8px;
+}
+
+.trainer-schedule-viewer {
+  margin-top: 40px;
+  border-top: 1px solid var(--border);
+  padding-top: 30px;
+}
+
+.trainer-schedule-viewer h4 {
+  font-family: var(--heading);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.trainer-empty-message {
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.class-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--surface);
+}
+
+.class-item:last-child {
+  border-bottom: none;
+}
+
+.class-info b {
+  font-family: var(--heading);
+  font-size: 18px;
+  text-transform: uppercase;
+  display: block;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.class-info span {
+  font-size: 12px;
+  color: var(--gray);
+  font-weight: 500;
+}
+
+.class-time {
+  font-family: var(--mono);
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .trainer-card {
+    padding: 52px 28px 32px;
+  }
+
+  .trainer-card::before {
+    left: 28px;
+  }
+
+  .trainer-card-label {
+    right: 28px;
+  }
+}

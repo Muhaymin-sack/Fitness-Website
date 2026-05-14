@@ -231,6 +231,7 @@
       try {
         const response = await fetch(apiBase + "/api/login", {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json"
           },
@@ -241,9 +242,8 @@
         showMessage(message, data.message || "Unable to login right now.", response.ok ? "success" : "error");
 
         if (response.ok) {
-          // Keep this simple: role-based redirect can be extended later.
           setTimeout(() => {
-            window.location.href = "index.html";
+            window.location.href = data.redirect || "home_page.html";
           }, 900);
         }
       } catch (error) {

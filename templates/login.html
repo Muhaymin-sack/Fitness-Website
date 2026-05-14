@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Login Page
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login_style.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="login-section">
+    <div class="login-wrap">
+
+        <div class="login-panel image-panel">
+            <div class="image-overlay">
+                <div class="intro-tag">Fitness Website</div>
+                <h1>Train with<br><strong>purpose</strong></h1>
+                <p>
+                    Access your membership, book classes, manage trainer sessions
+                    and continue your fitness journey.
+                </p>
+            </div>
+        </div>
+
+        <div class="login-panel form-panel">
+            <div class="login-box">
+                <div class="intro-tag">Member Access</div>
+
+                <h2>Welcome<br><strong>Back</strong></h2>
+
+                <p class="login-subtitle">
+                    Sign in to continue to your fitness dashboard.
+                </p>
+
+                <form id="loginForm" action="{{url_for('login')}}" method="POST" novalidate>
+                    <div class="field">
+                        <label>Account Type</label>
+                        <select id="role" name="account_type" required>l
+                            <option value="">Select account type</option>
+                            <option value="members">Members</option>
+                            <option value="trainers">Trainers</option>
+                            <option value="managers">Managers</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <label class="terms-row" for="terms">
+                        <input type="checkbox" id="terms" name="remember">
+                        <span>Remember me</span>
+                    </label>
+
+                    <button type="submit" class="login-btn">
+                        Login
+                    </button>
+                </form>
+
+                <p class="register-text">
+                    Don’t have an account?
+                    <a href="{{url_for('sign_up')}}">Register</a>
+                </p>
+
+                <p id="message"></p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+function showMessage(element, text, type) {
+    element.textContent = text;
+    element.classList.remove("error", "success");
+
+    if (type) {
+        element.classList.add(type);
+    }
+}
+
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
+    const message = document.getElementById("message");
+
+    if (role === "" || email === "" || password === "") {
+        e.preventDefault();
+
+        showMessage(
+            message,
+            "Please select account type and enter email/password.",
+            "error"
+        );
+
+        return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        e.preventDefault();
+
+        showMessage(
+            message,
+            "Please enter a valid email address.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (password.length < 8) {
+        e.preventDefault();
+
+        showMessage(
+            message,
+            "Password must be at least 8 characters.",
+            "error"
+        );
+
+        return;
+    }
+});
+</script>
+
+{% endblock %}

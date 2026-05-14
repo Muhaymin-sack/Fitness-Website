@@ -1,9 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Gym Membership Plans</title>
+    <script defer src="auth-guard.js"></script>
+    <link rel="stylesheet" href="style/base.css">
     <link rel="stylesheet" href="style/home_page.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link 
@@ -47,11 +49,14 @@
         
           
             <div class="buttons">
-              <a class="button signup-button">
-                <strong>Sign up</strong>
+              <span class="navbar-item" style="color: var(--ink) !important;">
+                <span id="currentUserLabel"></span>
+              </span>
+              <a class="button has-background-primary-05 has-text-primary-05-invert login-button" href="profile.html">
+                My Profile
               </a>
-              <a class="button is-success is-dark">
-                Log in
+              <a class="button has-background-primary-05 has-text-primary-05-invert login-button" onclick="logout()">
+                Logout
               </a>
             </div>
         </div>
@@ -114,9 +119,8 @@
                     </ul>
                 </div>
             
-                <button class="button is-danger is-fullwidth is-medium has-text-weight-bold">
-                    Book Here →
-                </button>
+                
+                <a href="#" class="process-button button is-fullwidth is-medium has-text-weight-bold">Book Here →</a>
             
             </div>
         
@@ -161,9 +165,9 @@
                         </ul>
                     </div>
                 
-                    <button class="button is-danger is-fullwidth is-medium has-text-weight-bold">
-                        Explore Workouts →
-                    </button>
+                    
+                    <a href="#" class="process-button button is-fullwidth is-medium has-text-weight-bold">Explore Workouts →</a>
+                    
                 
                 </div>
             

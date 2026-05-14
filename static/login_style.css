@@ -1,0 +1,238 @@
+:root {
+    --red: #BA181B;
+    --white: #FFFFFF;
+    --gray: #6C757D;
+    --red-hover: #9b1315;
+    --gray-light: #e9ecef;
+    --ink: #0B090A;
+    --surface: #F7F5F4;
+    --card-bg: #FFFFFF;
+    --border: #e2dfdd;
+
+    --heading: 'Barlow Condensed', sans-serif;
+    --body: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+
+    --ease: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius: 4px;
+}
+
+.login-section {
+    min-height: calc(100vh - 80px);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px;
+}
+
+.login-wrap {
+    width: 100%;
+    max-width: 1080px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(186, 24, 27, 0.08);
+}
+
+.login-panel {
+    min-height: 650px;
+}
+
+.image-panel {
+    position: relative;
+    background:
+        linear-gradient(rgba(11, 9, 10, 0.45), rgba(11, 9, 10, 0.65)),
+        url("images/login.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.image-overlay {
+    position: absolute;
+    inset: 0;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.intro-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.intro-tag::before {
+    content: '';
+    display: block;
+    width: 26px;
+    height: 1px;
+    background: var(--red);
+}
+
+.image-overlay h1,
+.login-box h2 {
+    font-family: var(--heading);
+    font-size: clamp(48px, 6vw, 78px);
+    line-height: 0.94;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+}
+
+.image-overlay h1 {
+    color: var(--white);
+}
+
+.image-overlay h1 strong,
+.login-box h2 strong {
+    color: var(--red);
+}
+
+.image-overlay p {
+    max-width: 430px;
+    color: rgba(255, 255, 255, 0.78);
+    margin-top: 22px;
+    line-height: 1.7;
+}
+
+.form-panel {
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 48px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 380px;
+}
+
+.login-box h2 {
+    color: var(--ink);
+    margin-bottom: 18px;
+}
+
+.login-subtitle {
+    color: var(--gray);
+    margin-bottom: 34px;
+    line-height: 1.7;
+}
+
+.field {
+    margin-bottom: 20px;
+}
+
+.field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    outline: none;
+    background: transparent;
+    color: var(--ink);
+    border-radius: 0;
+    transition: border-color var(--ease);
+}
+
+.field input:focus,
+.field select:focus {
+    border-bottom-color: var(--red);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 16px 18px;
+    margin-top: 18px;
+    border: 1px solid var(--red);
+    background: var(--red);
+    color: var(--white);
+    font-family: var(--heading);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background var(--ease), transform var(--ease);
+}
+
+.login-btn:hover {
+    background: var(--red-hover);
+    transform: translateY(-1px);
+}
+
+.register-text {
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--gray);
+}
+
+.register-text a {
+    color: var(--red);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+
+#message {
+    margin-top: 16px;
+    font-size: 13px;
+    min-height: 18px;
+    color: var(--gray);
+}
+
+#message.error {
+    color: var(--red);
+}
+
+#message.success {
+    color: #2a9d5c;
+}
+
+@media (max-width: 900px) {
+    .login-wrap {
+        grid-template-columns: 1fr;
+    }
+
+    .login-panel {
+        min-height: auto;
+    }
+
+    .image-panel {
+        min-height: 320px;
+    }
+
+    .image-overlay {
+        padding: 40px;
+    }
+
+    .form-panel {
+        padding: 44px 28px;
+    }
+}

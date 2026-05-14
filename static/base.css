@@ -56,46 +56,13 @@ body {
 
 
 .hero-section {
-    background: url('../images/gym equipment.jpg') no-repeat center center/cover;
+    background: url(images/gym_equipment.jpg) no-repeat center center/cover;
 }
 
 /*------------------------------
     HOME PAGE
 --------------------------------*/
 
-.overlay-text {
-    position: absolute !important;
-    top: 30%;
-    margin: auto;
-    color: #ffffff; 
-    padding: 20px 20px;  
-    text-align: center;
-}
-.home-section-left {
-    background-color: #e2dfdd;
-    flex-direction: row;
-}
-
-.home-section-right {
-    background-color: #45D976;
-    flex-direction: row-reverse;
-    
-}
-
-.home-section-img-left,
-.home-section-img-right {
-    width: 50%;
-    height: auto;
-}
-
-.home-section-button-right {
-    float: right;
-    background-color: #181D27;
-}
-
-.home-section-button-right:hover {
-    background-color: #181d27c5;
-}
 
 .process-button:active {
     background-color: var(--red);
@@ -128,3 +95,21 @@ body {
         0 20px 40px rgba(241,4,4,0.18);
 }
 
+
+/* --------------------------------------
+           flash message bar
+---------------------------------------- */
+
+#blink-text {
+    animation: blink;
+    text-align: center;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 2;
+}
+
+@keyframes blink {
+    0%{color: #181D27;}
+    50%{color: #ffffff;}
+    100%{color: #181D27;}
+}

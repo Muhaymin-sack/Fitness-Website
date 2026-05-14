@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | FitCore</title>
-  
+  <script defer src="auth-guard.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,900&family=DM+Mono&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -400,6 +400,12 @@
 
 <div class="wrap">
   
+  <div style="display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-bottom:12px; font-size:14px; color: var(--gray);">
+    <span>Logged in as: <strong id="currentUserLabel"></strong></span>
+    <a href="profile.html" style="background:var(--gray); color:var(--white); text-decoration:none; padding:8px 14px; border-radius:6px; font-weight:700;">My Profile</a>
+    <button type="button" onclick="logout()" style="background:var(--red); color:var(--white); border:none; padding:8px 14px; border-radius:6px; cursor:pointer; font-weight:700;">Logout</button>
+  </div>
+
   <div class="intro">
     <div class="intro-tag">Restricted Access</div>
     <h1>Admin <strong>Dashboard</strong></h1>
