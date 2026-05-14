@@ -246,7 +246,7 @@ function fmtCvv(el) {
 
 // update the visual card preview as the user fills in the form
 function updateCardPreview() {
-    var num = (document.getElementById('card-num').value || '').padEnd(19, 'ׁ・');
+    var num = (document.getElementById('card-num').value || '').padEnd(4, '·');
     var exp = (document.getElementById('card-exp').value || 'MM/YY');
     var name = (document.getElementById('card-name').value || 'YOUR NAME').toUpperCase();
 
@@ -362,7 +362,7 @@ function downloadReceipt() {
             '.foot{margin-top:36px;font-size:11px;color:#6C757D;border-top:1px solid #e2dfdd;padding-top:16px}' +
             '@media print{body{margin:24px}}' +
         '</style></head><body>' +
-        '<h1>Fit<span>Core</span></h1>' +
+        '<h1>Fit<span>Ness</span></h1>' +
         '<div class="meta">Official Payment Receipt &nbsp;·&nbsp; ' + o.date + '</div>' +
         '<table>' +
             '<tr><td>Order reference</td><td>' + o.ref + '</td></tr>' +
@@ -381,7 +381,7 @@ function downloadReceipt() {
         '<script>window.onload=function(){window.print();}<\/script>' +
         '</body></html>';
 
-    // oen the receipt in a new tab
+    // open the receipt in a new tab
     var win = window.open('', '_blank');
     win.document.write(html);
     win.document.close();
