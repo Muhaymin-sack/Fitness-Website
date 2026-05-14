@@ -23,8 +23,8 @@
 
     .container {
       width: 100%;
-      max-width: 1000px;
-      min-height: 680px;
+      max-width: 1100px;
+      min-height: 720px;
       display: flex;
       background-color: #6C757D;
       border-radius: 12px;
@@ -33,14 +33,14 @@
     }
 
     .left-panel {
-      width: 50%;
+      width: 38%;
       background: linear-gradient(135deg, #6C757D 0%, #495057 100%);
       color: #FFFFFF;
       padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .left-panel h1 {
@@ -52,59 +52,117 @@
       color: #E9ECEF;
     }
 
+    .left-panel ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    .left-panel li {
+      color: #E9ECEF;
+      font-size: 14px;
+      padding: 6px 0;
+      border-left: 3px solid #BA181B;
+      padding-left: 10px;
+      margin-bottom: 6px;
+    }
+
     .right-panel {
-      width: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 36px;
+      width: 62%;
+      padding: 30px 36px;
+      overflow-y: auto;
+      max-height: 90vh;
     }
 
     .register-box {
       width: 100%;
-      max-width: 360px;
       color: #FFFFFF;
     }
 
     .register-box h2 {
       text-align: center;
-      font-size: 30px;
-      margin-bottom: 6px;
+      font-size: 28px;
+      margin-bottom: 4px;
     }
 
     .subtitle {
       text-align: center;
       color: #E9ECEF;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
+      font-size: 14px;
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .section {
+      background-color: rgba(0, 0, 0, 0.12);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
     }
 
-    label {
+    .role-section {
+      display: none;
+    }
+
+    body[data-role="members"] .role-section.role-members,
+    body[data-role="trainers"] .role-section.role-trainers,
+    body[data-role="managers"] .role-section.role-managers {
+      display: block;
+    }
+
+    .section-title {
       font-size: 14px;
       font-weight: bold;
+      color: #FFFFFF;
+      margin-bottom: 10px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      padding-bottom: 6px;
     }
 
-    input {
-      padding: 12px;
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .form-row.single {
+      grid-template-columns: 1fr;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: #E9ECEF;
+    }
+
+    .form-group label .req {
+      color: #FFD6D6;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       outline: none;
       font-size: 14px;
+      font-family: Arial, sans-serif;
     }
 
     select {
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      outline: none;
-      font-size: 14px;
       background-color: #FFFFFF;
       color: #212529;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
     }
 
     .checkbox-row {
@@ -112,7 +170,7 @@
       align-items: flex-start;
       gap: 8px;
       font-size: 13px;
-      margin-top: 6px;
+      margin-top: 10px;
       color: #E9ECEF;
     }
 
@@ -123,8 +181,9 @@
       margin-top: 2px;
     }
 
-    button {
-      margin-top: 6px;
+    button[type="submit"] {
+      width: 100%;
+      margin-top: 14px;
       padding: 13px;
       border: none;
       border-radius: 8px;
@@ -136,13 +195,13 @@
       transition: 0.2s;
     }
 
-    button:hover {
+    button[type="submit"]:hover {
       opacity: 0.92;
     }
 
     #message {
       min-height: 20px;
-      margin-top: 12px;
+      margin-top: 10px;
       text-align: center;
       font-size: 14px;
     }
@@ -151,7 +210,7 @@
     .success { color: #D4FFDF; }
 
     .login-text {
-      margin-top: 14px;
+      margin-top: 12px;
       text-align: center;
       font-size: 14px;
       color: #E9ECEF;
@@ -175,35 +234,166 @@
       .right-panel {
         width: 100%;
       }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="left-panel">
+      <h1>Fitness Hub</h1>
+      <p>Join our gym community and unlock access to classes, trainers and personalised fitness plans.</p>
+      <ul>
+        <li>Personalised class recommendations</li>
+        <li>Trainer bookings</li>
+        <li>Membership and billing in one place</li>
+        <li>Secure account with emergency contact</li>
+      </ul>
+    </div>
+
     <div class="right-panel">
       <div class="register-box">
         <h2>Create Account</h2>
-        <p class="subtitle">Join and start your fitness journey</p>
+        <p class="subtitle">Fill in the details below to start your fitness journey</p>
 
-        <form id="registerForm">
-          <label for="fullName">Full name</label>
-          <input type="text" id="fullName" required />
+        <form id="registerForm" novalidate>
 
-          <label for="role">Account type</label>
-          <select id="role" required>
-            <option value="members">Members</option>
-            <option value="trainers">Trainers</option>
-            <option value="managers">Managers</option>
-          </select>
+          <div class="section">
+            <div class="section-title">Account Information</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full name <span class="req">*</span></label>
+                <input type="text" id="fullName" required />
+              </div>
+              <div class="form-group">
+                <label for="role">Account type <span class="req">*</span></label>
+                <select id="role" required>
+                  <option value="members">Members</option>
+                  <option value="trainers">Trainers</option>
+                  <option value="managers">Managers</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row single">
+              <div class="form-group">
+                <label for="email">Email address <span class="req">*</span></label>
+                <input type="email" id="email" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="password">Password <span class="req">*</span></label>
+                <input type="password" id="password" minlength="8" required />
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm password <span class="req">*</span></label>
+                <input type="password" id="confirmPassword" minlength="8" required />
+              </div>
+            </div>
+          </div>
 
-          <label for="email">Email address</label>
-          <input type="email" id="email" required />
+          <div class="section">
+            <div class="section-title">Personal Details</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Phone number <span class="req">*</span></label>
+                <input type="tel" id="phone" placeholder="e.g. +44 7700 900123" required />
+              </div>
+              <div class="form-group">
+                <label for="dateOfBirth">Date of birth <span class="req">*</span></label>
+                <input type="date" id="dateOfBirth" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender">
+                  <option value="">Select gender</option>
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" placeholder="Optional" />
+              </div>
+            </div>
+          </div>
 
-          <label for="password">Password</label>
-          <input type="password" id="password" minlength="8" required />
+          <div class="section role-section role-members">
+            <div class="section-title">Emergency Contact (Gym Safety)</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="emergencyContactName">Contact name <span class="req">*</span></label>
+                <input type="text" id="emergencyContactName" />
+              </div>
+              <div class="form-group">
+                <label for="emergencyContactPhone">Contact phone <span class="req">*</span></label>
+                <input type="tel" id="emergencyContactPhone" />
+              </div>
+            </div>
+          </div>
 
-          <label for="confirmPassword">Confirm password</label>
-          <input type="password" id="confirmPassword" minlength="8" required />
+          <div class="section role-section role-members">
+            <div class="section-title">Health Information (Optional)</div>
+            <div class="form-row single">
+              <div class="form-group">
+                <label for="healthNotes">Allergies, injuries or conditions trainers should be aware of</label>
+                <textarea id="healthNotes" placeholder="Leave blank if none"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="section role-section role-trainers">
+            <div class="section-title">Professional Information</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="specialization">Specialization <span class="req">*</span></label>
+                <select id="specialization">
+                  <option value="">Select specialization</option>
+                  <option value="Yoga &amp; Pilates">Yoga &amp; Pilates</option>
+                  <option value="HIIT">HIIT</option>
+                  <option value="Weightlifting">Weightlifting</option>
+                  <option value="Boxing">Boxing</option>
+                  <option value="Personal Training">Personal Training</option>
+                  <option value="Cardio &amp; Endurance">Cardio &amp; Endurance</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="yearsOfExperience">Years of experience <span class="req">*</span></label>
+                <input type="number" id="yearsOfExperience" min="0" max="70" />
+              </div>
+            </div>
+            <div class="form-row single">
+              <div class="form-group">
+                <label for="bio">Bio (shown on your trainer profile)</label>
+                <textarea id="bio" placeholder="Tell members about your background, qualifications and training style"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="section role-section role-managers">
+            <div class="section-title">Work Information</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="employeeID">Employee ID <span class="req">*</span></label>
+                <input type="text" id="employeeID" placeholder="e.g. MGR-001" />
+              </div>
+              <div class="form-group">
+                <label for="department">Department <span class="req">*</span></label>
+                <select id="department">
+                  <option value="">Select department</option>
+                  <option value="Operations">Operations</option>
+                  <option value="Customer Service">Customer Service</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="HR">HR</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
           <label class="checkbox-row" for="terms">
             <input type="checkbox" id="terms" required />
@@ -218,64 +408,142 @@
         <p class="login-text">Already have an account? <a href="login.html">Login</a></p>
       </div>
     </div>
-    <div class="left-panel">
-      <h1>Fitness Hub</h1>
-      <p>Create your account to manage memberships, classes and trainer bookings.</p>
-    </div>
   </div>
 
   <script>
     const form = document.getElementById("registerForm");
     const message = document.getElementById("message");
+    const roleSelect = document.getElementById("role");
     const isBackendOrigin =
       window.location.protocol === "http:" &&
       window.location.hostname === "127.0.0.1" &&
       window.location.port === "5000";
     const apiBase = isBackendOrigin ? "" : "http://127.0.0.1:5000";
 
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = type || "";
+    }
+
+    function applyRoleSections() {
+      document.body.dataset.role = roleSelect.value || "members";
+    }
+
+    roleSelect.addEventListener("change", applyRoleSections);
+    applyRoleSections();
+
+    function val(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : "";
+    }
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      const fullName = document.getElementById("fullName").value.trim();
-      const role = document.getElementById("role").value;
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+
+      const role = roleSelect.value;
+      const payload = {
+        fullName: val("fullName"),
+        role,
+        email: val("email"),
+        password: document.getElementById("password").value,
+        phone: val("phone"),
+        dateOfBirth: document.getElementById("dateOfBirth").value,
+        gender: document.getElementById("gender").value,
+        address: val("address"),
+      };
+      if (role === "members") {
+        payload.emergencyContactName = val("emergencyContactName");
+        payload.emergencyContactPhone = val("emergencyContactPhone");
+        payload.healthNotes = val("healthNotes");
+      } else if (role === "trainers") {
+        payload.specialization = document.getElementById("specialization").value;
+        payload.yearsOfExperience = val("yearsOfExperience");
+        payload.bio = val("bio");
+      } else if (role === "managers") {
+        payload.employeeID = val("employeeID");
+        payload.department = document.getElementById("department").value;
+      }
+
       const confirmPassword = document.getElementById("confirmPassword").value;
       const terms = document.getElementById("terms").checked;
 
-      message.textContent = "";
-      message.className = "";
+      showMessage("", "");
 
-      if (password !== confirmPassword) {
-        message.textContent = "Passwords do not match.";
-        message.classList.add("error");
+      if (payload.password !== confirmPassword) {
+        showMessage("Passwords do not match.", "error");
         return;
       }
-
+      if (payload.password.length < 8) {
+        showMessage("Password must be at least 8 characters.", "error");
+        return;
+      }
+      const phonePattern = /^\+?[0-9 ()-]{7,20}$/;
+      if (!phonePattern.test(payload.phone)) {
+        showMessage("Please enter a valid phone number.", "error");
+        return;
+      }
+      if (!payload.dateOfBirth) {
+        showMessage("Please select your date of birth.", "error");
+        return;
+      }
+      const dob = new Date(payload.dateOfBirth);
+      if (dob >= new Date()) {
+        showMessage("Date of birth must be in the past.", "error");
+        return;
+      }
+      if (role === "members") {
+        if (!payload.emergencyContactName || !payload.emergencyContactPhone) {
+          showMessage("Emergency contact name and phone are required.", "error");
+          return;
+        }
+        if (!phonePattern.test(payload.emergencyContactPhone)) {
+          showMessage("Please enter a valid emergency contact phone.", "error");
+          return;
+        }
+      } else if (role === "trainers") {
+        if (!payload.specialization) {
+          showMessage("Please select your specialization.", "error");
+          return;
+        }
+        if (payload.yearsOfExperience === "" || Number(payload.yearsOfExperience) < 0) {
+          showMessage("Please enter your years of experience.", "error");
+          return;
+        }
+      } else if (role === "managers") {
+        if (!payload.employeeID) {
+          showMessage("Employee ID is required.", "error");
+          return;
+        }
+        if (!payload.department) {
+          showMessage("Please select your department.", "error");
+          return;
+        }
+      }
       if (!terms) {
-        message.textContent = "Please accept terms before registering.";
-        message.classList.add("error");
+        showMessage("Please accept terms before registering.", "error");
         return;
       }
 
       try {
         const response = await fetch(apiBase + "/api/register", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ fullName, email, password, role })
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
         });
 
         const data = await response.json();
-        message.textContent = data.message || "Unable to register right now.";
-        message.classList.add(response.ok ? "success" : "error");
+        showMessage(data.message || "Unable to register right now.", response.ok ? "success" : "error");
 
         if (response.ok) {
           form.reset();
+          applyRoleSections();
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1500);
         }
       } catch (error) {
-        message.textContent = "Request failed: " + (error && error.message ? error.message : "Unknown network error");
-        message.classList.add("error");
+        showMessage("Request failed: " + (error && error.message ? error.message : "Unknown network error"), "error");
       }
     });
   </script>
