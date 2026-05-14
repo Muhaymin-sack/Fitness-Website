@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trainer Portal | FitCore</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,900&family=DM+Mono&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Colors */
+      --red: #BA181B;
+      --white: #FFFFFF;
+      --gray: #6C757D;
+      --red-hover: #9b1315;
+      --gray-light: #e9ecef;
+      --ink: #0B090A;
+      --surface: #F7F5F4;
+      --card-bg: #FFFFFF;
+      --border: #e2dfdd;
+
+      /* Typography */
+      --heading: 'Barlow Condensed', sans-serif;
+      --body: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+
+      /* Animation & UI */
+      --ease: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius: 4px;
+    }
+
+    /* --------------------------------------
+       BASE STYLES
+    ---------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {scroll-behavior: smooth;}
+    body {
+      font-family: var(--body);
+      color: var(--ink);
+      background: var(--surface);
+      line-height: 1.65;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* -------------------------------------
+       PAGE WRAPPER
+    ---------------------------------------- */
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 60px 24px 96px;
+    }
+
+    /* --------------------------------------
+       HERO SECTION
+    ---------------------------------------- */
+    .intro {
+      margin-bottom: 48px;
+      animation: rise 0.5s ease 0.05s both;
+    }
+
+    .intro-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .intro-tag::before {
+      content: '';
+      display: block;
+      width: 26px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .intro h1 {
+      font-family: var(--heading);
+      font-size: clamp(48px, 7vw, 82px);
+      text-align: center;
+      line-height: 0.94;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+
+    .intro h1 strong {
+      font-weight: 800;
+      color: var(--red);
+    }
+
+    .intro p {
+      font-size: 15px;
+      color: var(--gray);
+      max-width: 460px;
+      line-height: 1.7;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* --------------------------------------
+       GRID & CARDS
+    ---------------------------------------- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 44px;
+      animation: rise 0.5s ease 0.2s both;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px 26px 26px;
+      position: relative;
+      transition: border-color var(--ease), box-shadow var(--ease), transform var(--ease);
+    }
+
+    .card:hover {
+      border-color: rgba(186, 24, 27, 0.35);
+      box-shadow: 0 4px 24px rgba(186, 24, 27, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card.accent { border-top-color: var(--red); }
+
+    .tag {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-family: var(--mono);
+    }
+
+    .tag-red { background: var(--red); color: #fff; }
+    .tag-plain { background: var(--surface); color: var(--gray); border: 1px solid var(--border); }
+
+    .card-name {
+      font-family: var(--heading);
+      font-size: 26px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    /* --------------------------------------
+       FORM STYLING
+    ---------------------------------------- */
+    .field { margin-bottom: 16px; }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--body);
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--surface);
+      transition: border-color var(--ease), background var(--ease);
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus { 
+      border-color: var(--red); 
+      background: var(--white);
+    }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* --------------------------------------
+       BUTTONS
+    ---------------------------------------- */
+    .cta {
+      width: 100%;
+      padding: 15px 22px;
+      background: var(--red);
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--heading);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 24px;
+      transition: background var(--ease), transform var(--ease);
+    }
+
+    .cta:hover { background: var(--red-hover); transform: translateY(-1px); }
+    .cta:active { transform: translateY(0); }
+
+    /* --------------------------------------
+       CALENDAR UI
+    ---------------------------------------- */
+    .cal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .cal-nav h3 { 
+      font-family: var(--heading); 
+      text-transform: uppercase; 
+      font-size: 20px; 
+      letter-spacing: 0.04em;
+    }
+
+    .cal-nav button { 
+      background: var(--surface); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius);
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      font-size: 16px; 
+      cursor: pointer; 
+      color: var(--gray);
+      transition: all var(--ease);
+    }
+    .cal-nav button:hover { color: var(--ink); border-color: var(--ink); background: var(--white); }
+
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+
+    .day-name {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .day {
+      aspect-ratio: 1;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      position: relative;
+      border-radius: var(--radius);
+      transition: var(--ease);
+      font-family: var(--mono);
+      cursor: pointer;
+    }
+
+    .day.empty { border: none; cursor: default; }
+    .day:hover:not(.empty) { 
+      background: var(--surface); 
+      border-color: var(--red); 
+      color: var(--red);
+    }
+
+    .event-indicator {
+      width: 5px; height: 5px;
+      background: var(--red);
+      border-radius: 50%;
+      position: absolute;
+      bottom: 6px;
+    }
+
+    /* --------------------------------------
+       SCHEDULE LIST VIEWER
+    ---------------------------------------- */
+    .schedule-viewer {
+      margin-top: 36px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    .schedule-viewer h4 {
+      font-family: var(--heading);
+      font-size: 14px; 
+      font-weight: 700; 
+      text-transform: uppercase; 
+      color: var(--gray); 
+      margin-bottom: 16px; 
+      letter-spacing: 0.06em;
+    }
+
+    .class-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--surface);
+    }
+
+    .class-item:last-child { border-bottom: none; }
+
+    .class-info b { 
+      font-family: var(--heading);
+      font-size: 16px; 
+      text-transform: uppercase; 
+      display: block; 
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+    .class-info span { 
+      font-size: 12px; 
+      color: var(--gray); 
+      font-weight: 500; 
+    }
+    .class-time { 
+      font-family: var(--mono); 
+      color: var(--red); 
+      font-size: 13px; 
+      font-weight: 700;
+    }
+
+    /* --------------------------------------
+       TOAST NOTIFICATIONS
+    ---------------------------------------- */
+    .toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      border-radius: var(--radius);
+      padding: 13px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transform: translateX(120%);
+      transition: transform 0.38s cubic-bezier(0.34, 1.4, 0.64, 1);
+      z-index: 50;
+    }
+
+    .toast.show { transform: translateX(0); }
+    .toast-dot {
+      width: 8px; height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) { 
+      .grid { grid-template-columns: 1fr; } 
+      .intro h1 { font-size: 44px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  
+  <div class="intro">
+    <div class="intro-tag">Trainer Access</div>
+    <h1>Trainer <strong>Portal</strong></h1>
+    <p>Manage your weekly recurring availability. Set your times, and members will be able to book you directly.</p>
+  </div>
+
+  <div class="grid">
+    
+    <!-- LEFT CARD: ADD AVAILABILITY -->
+    <div class="card">
+      <span class="tag tag-plain">Schedule</span>
+      <div class="card-name">Set Weekly Rota</div>
+      
+      <form id="slotForm">
+        <div class="field">
+          <label>Day of the Week</label>
+          <select id="dayOfWeek" required>
+            <option value="" disabled selected>Select Day</option>
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+            <option value="0">Sunday</option>
+          </select>
+        </div>
+        
+        <div class="field-row">
+          <div class="field">
+            <label>Start Time</label>
+            <input type="time" id="startTime" required>
+          </div>
+          <div class="field">
+            <label>End Time</label>
+            <input type="time" id="endTime" required>
+          </div>
+        </div>
+        
+        <button type="submit" class="cta">Add to My Rota</button>
+      </form>
+    </div>
+
+    <!-- RIGHT CARD: CALENDAR & ROTA -->
+    <div class="card accent">
+      <span class="tag tag-red">My Rota</span>
+      
+      <div class="cal-nav">
+        <button id="prevBtn" aria-label="Previous Month">&larr;</button>
+        <h3 id="monthLabel">May 2026</h3>
+        <button id="nextBtn" aria-label="Next Month">&rarr;</button>
+      </div>
+      
+      <div class="calendar-grid">
+        <div class="day-name">Sun</div><div class="day-name">Mon</div><div class="day-name">Tue</div>
+        <div class="day-name">Wed</div><div class="day-name">Thu</div><div class="day-name">Fri</div><div class="day-name">Sat</div>
+      </div>
+      <div id="daysGrid" class="calendar-grid"></div>
+
+      <div class="schedule-viewer">
+        <h4 id="viewerDate">Daily Schedule</h4>
+        <div id="classList"><span style="font-size:13px; color:var(--gray);">Select a date to view your availability.</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast" class="toast">
+  <div class="toast-dot"></div>
+  <span id="toast-text"></span>
+</div>
+
+<script>
+  let viewDate = new Date();
+  
+  // Clean JavaScript object (No Python tags so Live Server won't crash)
+  let availabilityData = {
+    0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []
+  };
+
+  function formatDate(d) {
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month:'short', year:'numeric' });
+  }
+
+  function formatTime(timeString) {
+    if (!timeString) return '';
+    const [hourStr, minute] = timeString.split(':');
+    let hour = parseInt(hourStr, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12 || 12;
+    return `${hour}:${minute} ${ampm}`;
+  }
+
+  function render() {
+    const grid = document.getElementById("daysGrid");
+    grid.innerHTML = "";
+    const y = viewDate.getFullYear(), m = viewDate.getMonth();
+    
+    document.getElementById("monthLabel").innerText = new Date(y, m).toLocaleString('default', { month: 'long', year: 'numeric' });
+
+    const first = new Date(y, m, 1).getDay();
+    const last = new Date(y, m + 1, 0).getDate();
+
+    for (let i = 0; i < first; i++) {
+      grid.innerHTML += `<div class="day empty"></div>`;
+    }
+
+    for (let i = 1; i <= last; i++) {
+      const currentDayOfWeek = new Date(y, m, i).getDay();
+      const dateKey = `${y}-${String(m + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+      
+      const dayEl = document.createElement("div");
+      dayEl.className = "day";
+      dayEl.innerText = i;
+      
+      // Render the red dot if the day of week has data saved
+      if (availabilityData[currentDayOfWeek] && availabilityData[currentDayOfWeek].length > 0) {
+        dayEl.innerHTML += `<div class="event-indicator"></div>`;
+      }
+
+      dayEl.onclick = () => showClasses(dateKey, currentDayOfWeek);
+      grid.appendChild(dayEl);
+    }
+  }
+
+  function showClasses(dateKey, dayOfWeek) {
+    const parts = dateKey.split('-');
+    const displayDate = formatDate(new Date(parts[0], parts[1]-1, parts[2]));
+    document.getElementById("viewerDate").innerText = displayDate;
+    
+    const list = document.getElementById("classList");
+    const dayEvents = availabilityData[dayOfWeek] || [];
+
+    if (dayEvents.length === 0) {
+      list.innerHTML = `<div style="font-size: 13px; color: var(--gray);">You have no availability set for this day.</div>`;
+      return;
+    }
+
+    list.innerHTML = dayEvents.map(ev => `
+      <div class="class-item">
+        <div class="class-info">
+          <b>Available Slot</b>
+          <span>Status: Open for members to book</span>
+        </div>
+        <div class="class-time">${formatTime(ev.startTime)} - ${formatTime(ev.endTime)}</div>
+      </div>
+    `).join('');
+  }
+
+  function flash(msg) {
+    var t = document.getElementById('toast');
+    document.getElementById('toast-text').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function () { t.classList.remove('show'); }, 2800);
+  }
+
+  document.getElementById("slotForm").onsubmit = async (e) => {
+    e.preventDefault();
+    
+    const dayOfWeek = parseInt(document.getElementById("dayOfWeek").value, 10);
+    const startTime = document.getElementById("startTime").value;
+    const endTime = document.getElementById("endTime").value;
+
+    const newEntry = { dayOfWeek, startTime, endTime };
+
+    try {
+      const response = await fetch('/api/add-availability', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newEntry)
+      });
+
+      if (response.ok) {
+        if (!availabilityData[dayOfWeek]) availabilityData[dayOfWeek] = [];
+        availabilityData[dayOfWeek].push(newEntry);
+        availabilityData[dayOfWeek].sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+        render();
+        document.getElementById("slotForm").reset(); 
+        
+        document.getElementById("viewerDate").innerText = "Daily Schedule";
+        document.getElementById("classList").innerHTML = `<span style="font-size:13px; color:var(--gray);">Select a date to view your availability.</span>`;
+
+        flash('Availability permanently saved to database!');
+      } else {
+        throw new Error('Server returned an error.');
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      // Because your backend server isn't running yet, the fetch will fail.
+      // This fallback code ensures the calendar still updates visually for you to test!
+      if (!availabilityData[dayOfWeek]) availabilityData[dayOfWeek] = [];
+      availabilityData[dayOfWeek].push(newEntry);
+      availabilityData[dayOfWeek].sort((a, b) => a.startTime.localeCompare(b.startTime));
+      
+      render();
+      document.getElementById("slotForm").reset();
+      
+      document.getElementById("viewerDate").innerText = "Daily Schedule";
+      document.getElementById("classList").innerHTML = `<span style="font-size:13px; color:var(--gray);">Select a date to view your availability.</span>`;
+      
+      flash('Saved visually! (Python backend not connected yet)');
+    }
+  };
+
+  document.getElementById("prevBtn").onclick = () => { viewDate.setMonth(viewDate.getMonth() - 1); render(); };
+  document.getElementById("nextBtn").onclick = () => { viewDate.setMonth(viewDate.getMonth() + 1); render(); };
+
+  render();
+</script>
+
+</body>
+</html>
