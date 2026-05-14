@@ -1,0 +1,130 @@
+:root {
+    --red: #BA181B;
+    --white: #FFFFFF;
+    --gray: #6C757D;
+    --red-hover: #9b1315;
+    --gray-light: #e9ecef;
+    --ink: #0B090A;
+    --surface: #F7F5F4;
+    --card-bg: #FFFFFF;
+    --border: #e2dfdd;
+
+    --heading: 'Barlow Condensed', sans-serif;
+    --body: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+
+    --ease: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius: 4px;
+}
+
+/* --------------------------------------
+           BASE STYLES
+---------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {scroll-behavior: smooth;}
+body {
+    font-family: var(--body);
+    color: var(--ink);
+    background: var(--surface);
+    line-height: 1.65;
+    font-size: 15px;
+}
+
+
+
+/* --------------------------------------
+           Navigation bar
+---------------------------------------- */
+.navbar-item img {
+    max-height: none !important;
+    height: 70px;
+}
+.navbar-item:hover {
+    background-color: var(--red-hover);
+}
+
+
+.signup-button{
+    background-color: #6C757D !important;
+}
+
+.signup-button:hover {
+    transition: 90ms ease-in-out;
+    background-color: #61686f;
+    color: white;
+}
+
+
+.hero-section {
+    background: url('../images/gym equipment.jpg') no-repeat center center/cover;
+}
+
+/*------------------------------
+    HOME PAGE
+--------------------------------*/
+
+.overlay-text {
+    position: absolute !important;
+    top: 30%;
+    margin: auto;
+    color: #ffffff; 
+    padding: 20px 20px;  
+    text-align: center;
+}
+.home-section-left {
+    background-color: #e2dfdd;
+    flex-direction: row;
+}
+
+.home-section-right {
+    background-color: #45D976;
+    flex-direction: row-reverse;
+    
+}
+
+.home-section-img-left,
+.home-section-img-right {
+    width: 50%;
+    height: auto;
+}
+
+.home-section-button-right {
+    float: right;
+    background-color: #181D27;
+}
+
+.home-section-button-right:hover {
+    background-color: #181d27c5;
+}
+
+.process-button:active {
+    background-color: var(--red);
+    color: white !important;
+}
+
+
+
+
+.gym-card{
+
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+
+    min-height: 650px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition: 0.3s ease;
+}
+
+.gym-card:hover{
+    transform: translateY(-6px);
+
+    border-color: #F10404;
+
+    box-shadow:
+        0 20px 40px rgba(241,4,4,0.18);
+}
+

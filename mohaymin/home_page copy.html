@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Gym Membership Plans</title>
+    <link rel="stylesheet" href="style/home_page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link 
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+</head>
+<body>
+    
+    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: var(--red) !important;">
+      <div class="navbar-brand">
+        <a class="navbar-item logo-item" href="home_page.html">
+            <img src="images/Fitness Website logo.png ">
+        </a>
+    
+        <a role="button" class="navbar-burger" style="color: var(--ink) !important;" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+  
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-end navbar-section">
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Home
+            </a>
+          
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Store
+            </a>
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Membership Plans
+            </a>
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Classes
+            </a>
+            <a class="navbar-item" style="color: var(--ink) !important;">
+              Personal Training
+            </a>
+        
+          
+            <div class="buttons">
+              <a class="button signup-button">
+                <strong>Sign up</strong>
+              </a>
+              <a class="button is-success is-dark">
+                Log in
+              </a>
+            </div>
+        </div>
+        
+      </div>
+    </nav>
+
+    <section class="hero-section hero is-fullheight">
+        <div id="hero-body">
+        
+        <div class="container has-text-centered overlay-text">
+            <p class="title is-size-1" style="color: white;">Empowering a with Greater Fitness</p>
+            <p class="subtitle is-size-4 is-size-5-mobile" style="color: white;">
+                Fitness Website provides a complete digital fitness experience — 
+                from gym class bookings and personal trainer sessions to workout 
+                guidance, memberships and nutrition support. Train smarter, stay 
+                consistent and achieve your fitness goals through one modern platform.
+            </p>
+        </div>
+        </div>
+    </section>
+
+    <div class="grid">
+
+        <div class="card" style="border: 1px solid #e5e5e5; border-radius: 14px; overflow: hidden;">
+            <div class="card-image has-text-centered p-6">
+              <figure class="image is-inline-block" style="max-width: px;">
+                <img src="images/8.png" alt="Treadmill">
+              </figure>
+            </div>
+        
+            <div class="card-content">
+              <p class="heading has-text-danger has-text-weight-bold">
+                Personal Training
+              </p>
+          
+              <p class="title is-3" style="color: #0B090A;">
+                Train smarter. Perform better.
+              </p>
+          
+              <p class="subtitle is-6" style="color: #6C757D;">
+                Book one-to-one trainer sessions, follow structured workout plans and improve your fitness with professional support.
+              </p>
+          
+              <div class="content">
+                <ul>
+                  <li>Personal trainer booking</li>
+                  <li>Workout guidance</li>
+                  <li>Beginner to advanced plans</li>
+                </ul>
+              </div>
+          
+              <button class="button is-danger is-fullwidth is-medium">
+                Book Here →
+              </button>
+            </div>
+        </div>
+        <div class="card" style="border: 1px solid #e5e5e5; border-radius: 14px; overflow: hidden;">
+            <div class="card-image has-text-centered p-6">
+              <figure class="image is-inline-block" style="max-width: px;">
+                <img src="images/8.png" alt="Treadmill">
+              </figure>
+            </div>
+        
+            <div class="card-content">
+              <p class="heading has-text-danger has-text-weight-bold">
+                Personal Training
+              </p>
+          
+              <p class="title is-3" style="color: #0B090A;">
+                Train smarter. Perform better.
+              </p>
+          
+              <p class="subtitle is-6" style="color: #6C757D;">
+                Book one-to-one trainer sessions, follow structured workout plans and improve your fitness with professional support.
+              </p>
+          
+              <div class="content">
+                <ul>
+                  <li>Personal trainer booking</li>
+                  <li>Workout guidance</li>
+                  <li>Beginner to advanced plans</li>
+                </ul>
+              </div>
+          
+              <button class="button is-danger is-fullwidth is-medium">
+                Book Here →
+              </button>
+            </div>
+        </div>
+
+        
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+          // Get all "navbar-burger" elements
+          const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+          // Add a click event on each of them
+          $navbarBurgers.forEach( el => {
+            el.addEventListener('click', () => {
+            
+              // Get the target from the "data-target" attribute
+              const target = el.dataset.target;
+              const $target = document.getElementById(target);
+            
+              // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+              el.classList.toggle('is-active');
+              $target.classList.toggle('is-active');
+            
+            });
+          });
+      
+        });
+    </script>
+
+</body>
+</html>

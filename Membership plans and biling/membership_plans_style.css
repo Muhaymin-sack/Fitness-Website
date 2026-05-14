@@ -18,7 +18,7 @@
 }
 
 /* --------------------------------------
-           BASE STYLES
+            BASE STYLES
 ---------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {scroll-behavior: smooth;}
@@ -30,82 +30,7 @@ body {
     font-size: 15px;
 }
 
-/* --------------------------------------
-           Navigation bar
----------------------------------------- */
-.navbar-item img {
-    max-height: none !important;
-    height: 70px;
-}
-.navbar-item:hover {
-    background-color: var(--red-hover);
-}
-
-
-.signup-button{
-    background-color: #6C757D !important;
-}
-
-.signup-button:hover {
-    transition: 90ms ease-in-out;
-    background-color: #61686f;
-    color: white;
-}
-
-.login-button:hover{
-    background-color: #2d6645 !important;
-}
-
-
-.hero-section {
-    background: url('../images/gym equipment.jpg') no-repeat center center/cover;
-}
-
-/*------------------------------
-    HOME PAGE
---------------------------------*/
-
-.overlay-text {
-    position: absolute !important;
-    top: 30%;
-    margin: auto;
-    color: #ffffff; 
-    padding: 20px 20px;  
-    text-align: center;
-}
-.home-section-left {
-    background-color: #e2dfdd;
-    flex-direction: row;
-}
-
-.home-section-right {
-    background-color: #45D976;
-    flex-direction: row-reverse;
-    
-}
-
-.home-section-img-left,
-.home-section-img-right {
-    width: 50%;
-    height: auto;
-}
-
-.home-section-button-right {
-    float: right;
-    background-color: #181D27;
-}
-
-.home-section-button-right:hover {
-    background-color: #181d27c5;
-}
-
-.process-button:active {
-    background-color: var(--red);
-    color: white !important;
-}
-
-
-/* --------------------------------------
+/* -------------------------------------
            page wrapper
 ---------------------------------------- */
 .wrap {
@@ -133,7 +58,6 @@ body {
     align-items: center;
     gap: 10px;
     margin-bottom: 14px;
-    margin-top: 25px;
 }
 
 .intro-tag::before {
@@ -284,7 +208,7 @@ body {
     border-top-color: var(--red);
 }
 
-/* small floaditng badge such as popular, student */
+/* small floaditng badge such as popular, student etc. */
 .tag {
     position: absolute;
     top: 18px;
@@ -298,8 +222,8 @@ body {
     font-family: var(--mono);
 }
 
-.tag.red { background: var(--red); color: #fff;}
-.tag.plain { background: var(--gray-light); color: var(--gray);}
+.tag-red { background: var(--red); color: #fff;}
+.tag-plain { background: var(--gray-light); color: var(--gray);}
 
 /* small icon area at top of card */
 .icon {width: 34px; height: 34px; margin-bottom: 18px;}
@@ -418,8 +342,8 @@ body {
     border-color: var(--red);
 }
 
-/* --------------------------------------
-           billing summary panel
+/* -------------------------------------
+        billing summary panel
 ---------------------------------------- */
 #summary {
     background: var(--white);
@@ -649,7 +573,7 @@ body {
 
 
 /* --------------------------------------------
-     checkout modal overlay
+         checkout modal overlay
 ---------------------------------------------- */
 
 /* full screen backdrop - hidden by default */
@@ -687,12 +611,15 @@ body {
 /* X close button in the top right corner */
 .modal-close {
     position: absolute;
-    top: 14px; right: 14px;
-    width: 30px; height: 30px;
+    top: 14px; 
+    right: 14px;
+    width: 30px; 
+    height: 30px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 50%;
-    display: grid; place-items: center;
+    display: grid;
+     place-items: center;
     color: var(--gray);
     cursor: pointer;
     transition: background var(--ease), color var(--ease);
@@ -709,7 +636,7 @@ body {
 
 /* left column: payment form */
 .pay-left {
-    padding: 36px, 32px;
+    padding: 36px 32px;
     border-right: 1px solid var(--border);
 }
 
@@ -738,9 +665,12 @@ body {
 }
 
 .pay-tab {
-    display: flex; align-items: center; gap: 6px;
+    display: flex;
+     align-items: center;
+      gap: 6px;
     padding: 8px 13px;
-    font-size: 12px; font-weight: 500;
+    font-size: 12px; 
+    font-weight: 500;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: transparent;
@@ -905,11 +835,16 @@ body {
     border: none;
     border-radius: var(--radius);
     font-family: var(--heading);
-    font-size: 16px; font-weight: 800;
-    letter-spacing: 0.08em; text-transform: uppercase;
+    font-size: 16px; 
+    font-weight: 800;
+    letter-spacing: 0.08em; 
+    text-transform: uppercase;
     color: #fff;
     cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 8px;
     transition: background var(--ease), transform var(--ease);
 }
 
@@ -927,18 +862,47 @@ body {
 
 /* right column: order recap */
 .pay-right {
-    padding: 36px, 24px;
+    padding: 36px 24px;
     background: var(--surface);
 }
 
 .recap-title {
+    font-family: var(--heading);
+    font-size: 15px; 
+    font-weight: 700;
+    text-transform: uppercase; 
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.recap-row {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: baseline;
+    font-size: 13px; 
+    padding: 7px 0;
+    border-bottom: 1px solid var(--gray-light);
+    color: var(--gray);
+}
+
+.recap-row span:last-child { 
+    font-family: var(--mono); 
+    font-size: 12px; color: var(--ink); 
+}
+
+.recap-row .green { color: #2a9d5c; }
+
+.recap-total {
     display: flex; 
     justify-content: space-between; 
     align-items: baseline;
     padding: 12px 0 0;
     font-family: var(--heading);
-    font-size: 15px; 
-    font-weight: 700;
+    font-size: 15px;
+     font-weight: 700;
     text-transform: uppercase;
     color: var(--ink);
     border-top: 2px solid var(--border);
@@ -977,6 +941,11 @@ body {
 .tick-wrap { margin-bottom: 22px;}
 .tick-svg { width: 64px; height: 64px;}
 .tick-circle {
+    stroke-dasharray: 151;
+    stroke-dashoffset: 151;
+    animation: drawCircle 0.5s ease 0.1s forwards;
+}
+.tick-mark {
     stroke-dasharray: 36;
     stroke-dashoffset: 36;
     animation: drawMark 0.35s ease 0.55s forwards;
@@ -1057,7 +1026,7 @@ body {
     padding: 12px 22px;
     background: transparent;
     border: 1px solid var(--border);
-     border-radius: var(--radius);
+    border-radius: var(--radius);
     font-family: var(--heading); 
     font-size: 14px; 
     font-weight: 700;
@@ -1079,9 +1048,9 @@ entrance animations  shared by sevral secitons
 }
 
 /* --------------------------------------
- responsive single coluim below 700px
+responsive single column on narrwo screens
 ---------------------------------------- */
-@media (max-width: 700px) {
+@media (max-width: 640px) {
     .grid { grid-template-columns: 1fr; }
     .summary-body { grid-template-columns: 1fr; }
     .summary-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }

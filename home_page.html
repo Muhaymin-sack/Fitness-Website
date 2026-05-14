@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,7 @@
     <title> Gym Membership Plans</title>
     <script defer src="auth-guard.js"></script>
     <link rel="stylesheet" href="style/base.css">
+    <link rel="stylesheet" href="style/home_page.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link 
     href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -63,19 +64,120 @@
       </div>
     </nav>
 
-    <div id="hero-section">
-        <img src="images/gym equipment.jpg" alt="">
-        <div class="overlay-text hero-body">
-            <p class="title is-size-1" style="color: white;">Empowering a Greener Future</p>
-            <p class="subtitle is-size-2 is-size-4-mobile" style="color: white;">
-                At Rolsa Technologies, we deliver smart, 
-                sustainable energy solutions — from solar panel 
-                installations and EV charging stations to intelligent 
-                home energy management systems. Join us in building a cleaner, smarter tomorrow.
+    <section class="hero-section hero is-fullheight">
+        <div id="hero-body">
+        
+        <div class="container has-text-centered overlay-text">
+            <p class="title is-size-1" style="color: white;">Empowering a with Greater Fitness</p>
+            <p class="subtitle is-size-4 is-size-5-mobile" style="color: white;">
+                Fitness Website provides a complete digital fitness experience — 
+                from gym class bookings and personal trainer sessions to workout 
+                guidance, memberships and nutrition support. Train smarter, stay 
+                consistent and achieve your fitness goals through one modern platform.
             </p>
+        </div>
+        </div>
+    </section>
+
+    <br>
+
+    <div class="columns is-centered is-variable is-5">
+
+    <div class="column is-5">
+        <!-- CARD -->
+         <div class="card gym-card">
+
+            <div class="card-image has-text-centered pt-6">
+                <figure class="image is-inline-block">
+                    <img src="images/8.png"
+                         alt="Treadmill"
+                         style="width: 220px;">
+                </figure>
+            </div>
+        
+            <div class="card-content">
+            
+                <p class="has-text-danger has-text-weight-bold mb-2">
+                    Personal Training
+                </p>
+            
+                <h1 class="title is-2 has-text-black">
+                    Train smarter. Perform better.
+                </h1>
+            
+                <p class="subtitle is-5 has-text-grey-light">
+                    Book one-to-one trainer sessions, follow structured
+                    workout plans and improve your fitness with
+                    professional support.
+                </p>
+            
+                <div class="content has-text-grey-light">
+                    <ul>
+                        <li>Personal trainer booking</li>
+                        <li>Workout guidance</li>
+                        <li>Beginner to advanced plans</li>
+                    </ul>
+                </div>
+            
+                <button class="button is-danger is-fullwidth is-medium has-text-weight-bold">
+                    Book Here →
+                </button>
+            
+            </div>
+        
         </div>
     </div>
 
+    <div class="column is-5">
+        <!-- CARD -->
+         
+
+            <div class="card gym-card">
+            
+                <div class="card-image has-text-centered pt-6">
+                    <figure class="image is-inline-block">
+                        <img src="images/2.png"
+                             alt="Workout Plans"
+                             style="width: 220px;">
+                    </figure>
+                </div>
+            
+                <div class="card-content">
+                
+                    <p class="has-text-danger has-text-weight-bold mb-2">
+                        Workout Programs
+                    </p>
+                
+                    <h1 class="title is-2 has-text-black">
+                        Build strength. Stay consistent.
+                    </h1>
+                
+                    <p class="subtitle is-5 has-text-grey-light">
+                        Discover structured workout routines designed for
+                        beginners, intermediate athletes and advanced gym-goers.
+                        Track your progress and improve your performance over time.
+                    </p>
+                
+                    <div class="content has-text-grey-light">
+                        <ul>
+                            <li>Strength & hypertrophy plans</li>
+                            <li>Fat loss & conditioning workouts</li>
+                            <li>Progressive overload tracking</li>
+                        </ul>
+                    </div>
+                
+                    <button class="button is-danger is-fullwidth is-medium has-text-weight-bold">
+                        Explore Workouts →
+                    </button>
+                
+                </div>
+            
+            </div>
+        
+        
+    </div>
+
+</div>
 
 
     <script>
