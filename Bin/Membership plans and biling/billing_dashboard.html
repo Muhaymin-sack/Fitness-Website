@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Billing Dashboard</title>
+        <link rel="stylesheet" href="billing_dashboard.css" >
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- page -->
+        <div class="pg">
+            <div class="pg-top">
+                <div>
+                    <div class="pg-eyebrow">My account</div>
+                    <h1 class="pg-title">Billing &amp; <em>Membership</em></h1>
+                </div>
+            
+                <a href="membership_plans.html" class="btn bp">
+                    <svg viewBox="0 0 14 14" fill="none">
+                        <path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    New Plan
+                </a>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab on" onclick="goTab('ov', this)"><div class="tab-dot"></div>Overview</button>
+                <button class="tab" onclick="goTab('hi', this)">Billing History</button>
+                <button class="tab" onclick="goTab('se', this)">Settings</button>
+            </div>
+
+            <!-- Tab overview -->
+            <div id="tab-ov" class="panel on">
+                <!-- status banner; shows conditionally -->
+                <div id="banner-paused" class="banner banner-amber hidden">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.2"/>
+                        <rect x="5" y="4.5" width="2" height="6" rx=".8" fill="currentColor"/>
+                        <rect x="8" y="4.5" width="2" height="6" rx=".8" fill="currentColor"/>
+                    </svg>
+                    <span>Paused until <strong id="pause-until">-</strong> - no payment will be taken./span>
+                    <button class="btn bp btn-sm" style="margin-left: auto;" onclick="reactivate()">Reactivate now</button>
+                </div>
+                <div id="banner-cancelled" class="banner banner-red hidden">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.2"/>
+                        <path d="M5 5l5 5M10 5l-5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                    </svg>
+                    <span>Membership cancelled - access continues until <strong id="cancel-until">-</strong>.</span>
+                    <a href="membership_plans.html" class="btn bp btn-sm" style="margin-left: auto;">Choose new plan</a>
+                </div>
+
+                <div class="g-main" style="margin-bottom: 18px;">
+                    <!-- left column -->
+                    <div>
+                        <!-- hero plan card -->
+                        <div class="hero-card">
+                            <div class="hero-inner">
+
+                                <!-- days remaining ring -->
+                                <div class="ring-wrap">
+                                    <svg class="ring-svg" viewBox="0 0 116 116">
+                                        <circle class="ring-track" cx="58" cy="58" r="50"/>
+                                        <circle class="ring-arc" id="ring-arc" cx="58" cy="58" r="50"stroke-dasharray="314.2" stroke-dashoffset="314.2" stroke="var(--green)"/>
+                                    </svg>
+                                    <div class="ring-ctr">
+                                        <div class="ring-num" id="ring-days">—</div>
+                                        <div class="ring-lbl">days left</div>
+                                    </div>
+                                </div>
+
+                                <!-- plan info -->
+                                <div class="hero-body">
+                                    <div style="display:flex; align-items: center; gap: 9px; margin-bottom: 8px; flex-wrap: wrap;">
+                                        <div class="hero-name" id="h-name">—</div>
+                                        <span class="badge b-active" id="h-badge">Active</span>
+                                    </div>
+
+                                    <div class="meta" id="h-meta">
+                                        <div class="mi">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                                <rect x="1" y="2.5" width="10" height="8.5" rx="1" stroke="currentColor" stroke-width="1.1"/>
+                                                <path d="M1 5.5h10M4 1v3M8 1v3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                                            </svg> Started&nbsp;<strong id="h-start">—</strong>
+                                        </div>
+                                        <div class="sep"></div>
+                                        <div class="mi">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                                <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.1"/>
+                                                <path d="M6 3.5V6l1.8 1.4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                                            </svg> Renews&nbsp;<strong id="h-renew">—</strong>
+                                        </div>
+                                        <div class="sep"></div>
+                                        <div class="mi">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                                <rect x="1" y="2" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/>
+                                                <path d="M1 5h10M4 5v5" stroke="currentColor" stroke-width="1.1"/>
+                                            </svg>&nbsp;<strong id="h-price">—</strong>&nbsp;/&nbsp;<span id="h-cyc">mo</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Progress bar -->
+                                    <div class="bar-wrap">
+                                        <div class="bar-labels">
+                                            <span id="bl-left">—</span>
+                                            <span id="bl-right">—</span>
+                                        </div>
+                                        <div class="bar-track">
+                                            <div class="bar-fill" id="bar-fill" style="width:0%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Actions -->
+                                    <div class="act-row" id="act-row">
+                                        <button class="btn bp" onclick="openSwitch()">
+                                            <svg viewBox="0 0 14 14" fill="none">
+                                                <path d="M1 4h9M7.5 1.5l3 2.5-3 2.5M13 10H4M6.5 7.5L3.5 10l3 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            Switch Plan
+                                        </button>
+                                        <button class="btn bw" onclick="openPause()">
+                                            <svg viewBox="0 0 14 14" fill="none">
+                                                <rect x="2" y="2" width="3.5" height="10" rx=".8" fill="currentColor"/>
+                                                <rect x="8.5" y="2" width="3.5" height="10" rx=".8" fill="currentColor"/>
+                                            </svg>
+                                            Pause
+                                        </button>
+                                        <button class="btn bd" onclick="openCancel()">
+                                            <svg viewBox="0 0 14 14" fill="none">
+                                                <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/>
+                                                <path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                                            </svg>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Benefits strip -->
+                            <div class="hr" style="margin:18px 0 14px"></div>
+                            <div style="font-family:var(--mn);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--gray);margin-bottom:10px">Plan includes</div>
+                            <div class="benefits-grid" id="benefits-grid"></div>
+                        </div>
+                        
+                        <!-- Stats strip -->
+                        <div class="g3" style="margin-bottom:18px">
+                            <div class="stat">
+                                <div class="stat-lbl">Total paid (lifetime)</div>
+                                <div class="stat-val" id="s-total">—</div>
+                                <div class="stat-sub">All transactions</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-lbl">Member since</div>
+                                <div class="stat-val" id="s-since">—</div>
+                                <div class="stat-sub" id="s-dur">—</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-lbl">Current plan</div>
+                                <div class="stat-val stat-red" id="s-plan">—</div>
+                                <div class="stat-sub" id="s-billing">—</div>
+                            </div>
+                        </div>
+
+                        <!-- Recent transactions -->
+                        <div class="card">
+                            <div class="card-hd">
+                                Recent Transactions
+                                <button class="btn bo btn-sm" onclick="goTab('hi',document.querySelectorAll('.tab')[1])">View all</button>
+                            </div>
+                            <div class="tbl-wrap"><table class="tbl" id="tbl-recent"></table></div>
+                        </div>
+                    </div>
+
+                    <!-- riht column -->
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+
+                        <!--next payment  -->
+                        <div class="card">
+                            <div class="card-hd">Next Payment</div>
+                            <div class="np-amount" id="np-amt">—</div>
+                            <div class="np-due" id="np-due">Due on —</div>
+                            <div class="np-row"><span>Plan</span><strong id="np-plan">—</strong></div>
+                            <div class="np-row"><span>Billing cycle</span><strong id="np-cyc">—</strong></div>
+                            <div class="np-row"><span>Subtotal</span><strong id="np-sub">—</strong></div>
+                            <div id="np-disc-row" class="np-row hidden">
+                                <span style="color:var(--green)">Discount (20%)</span>
+                                <strong id="np-disc" style="color:var(--green)">—</strong>
+                            </div>
+                            <div class="np-row"><span>VAT (20%)</span><strong id="np-vat">—</strong></div>
+                            <div class="np-row" style="border-top:2px solid var(--border);padding-top:10px;margin-top:2px">
+                                <span style="font-weight:600;color:var(--ink)">Total</span>
+                                <strong id="np-tot" style="font-family:var(--hd);font-size:18px;color:var(--red)">—</strong>
+                            </div>
+                        </div>
+
+                        <!-- Payment method -->
+                        <div class="card">
+                            <div class="card-hd">Payment Method <button class="btn bo btn-sm" onclick="toast('Card management coming in Sprint 3','g')">Change</button></div>
+                            <div class="pm">
+                                <div class="pm-icon">VISA</div>
+                                <div class="pm-info">
+                                    <div class="pm-name">Visa ending 4242</div>
+                                    <div class="pm-sub">Expires 08 / 27</div>
+                                </div>
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <path d="M2 7l4 4 6-6" stroke="#1a7a38" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div style="font-size:11px;color:var(--gray);display:flex;align-items:center;gap:5px">
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                    <rect x="1.5" y="4" width="7" height="5.5" rx="1" stroke="currentColor" stroke-width=".9"/>
+                                    <path d="M3.5 4V3a1.5 1.5 0 013 0v1" stroke="currentColor" stroke-width=".9"/>
+                                </svg>
+                                256-bit SSL · PCI-DSS compliant
+                            </div>
+                        </div>
+
+                        <!-- Countdown card -->
+                        <div class="card" style="text-align:center;padding:20px">
+                            <div style="font-family:var(--mn);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--gray);margin-bottom:8px">Days until renewal</div>
+                            <div style="display:flex;justify-content:center;gap:8px" id="countdown-tiles"></div>
+                            <div style="font-size:11px;color:var(--gray);margin-top:10px" id="cd-label">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- history tab -->
+            <div id="tab-hi" class="panel">
+                <div class="card">
+                <div class="card-hd" style="margin-bottom:16px">
+                    Billing History
+                    <span style="font-family:var(--mn);font-size:10px;color:var(--gray);font-weight:400;text-transform:none;letter-spacing:0" id="hist-count">—</span>
+                </div>
+                <div class="filter-row">
+                    <span class="filter-lbl">Filter:</span>
+                    <button class="filter-btn on" onclick="filterHist('all',this)">All</button>
+                    <button class="filter-btn" onclick="filterHist('paid',this)">Paid</button>
+                    <button class="filter-btn" onclick="filterHist('',this)">Paused</button>
+                    <button class="filter-btn" onclick="filterHist('canceled',this)">Canceled</button>
+                </div>
+                <div class="tbl-wrap"><table class="tbl" id="tbl-full"></table></div>
+                </div>
+            </div>
+
+            <!-- settings tab -->
+            <div id="tab-se" class="panel">
+                <div class="g2">
+
+                <div class="card">
+                    <div class="card-hd">Personal Details</div>
+                    <div class="sfield">
+                        <div class="sfield-lbl">Full name</div>
+                        <div class="sfield-val">Peedarp Khadka</div>
+                    </div>
+                    <div class="sfield">
+                        <div class="sfield-lbl">Email</div>
+                        <div class="sfield-val">peedarp@email.com</div>
+                    </div>
+                    <div class="sfield">
+                        <div class="sfield-lbl">Phone</div>
+                        <div class="sfield-val">+44 7911 123 456</div>
+                    </div>
+                    <div class="sfield">
+                        <div class="sfield-lbl">Member ID</div>
+                        <div class="sfield-val" style="font-family:var(--mn);font-size:13px;color:var(--gray)">FC-2024-00421</div>
+                    </div>
+                    <div class="sfield">
+                        <div class="sfield-lbl">Joined</div>
+                        <div class="sfield-val">14 Nov 2024</div>
+                    </div>
+                    <div class="hr" style="margin:16px 0 14px"></div>
+                    <button class="btn bo" onclick="toast('comming soon','g')">Edit Profile</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-hd">Notification Preferences</div>
+                    <div class="notif-row">
+                        <div class="notif-info">
+                            <div class="notif-title">Renewal reminders</div>
+                            <div class="notif-sub">7 days and 1 day before renewal</div>
+                        </div>
+                        <label class="tog">
+                            <input type="checkbox" checked onchange="notifTog(this,'Renewal reminders')">
+                            <div class="tog-track"><div class="tog-thumb"></div></div>
+                        </label>
+                    </div>
+                    <div class="notif-row">
+                        <div class="notif-info">
+                            <div class="notif-title">Payment receipts</div>
+                            <div class="notif-sub">Email after each successful payment</div>
+                        </div>
+                        <label class="tog">
+                            <input type="checkbox" checked onchange="notifTog(this,'Payment receipts')">
+                            <div class="tog-track"><div class="tog-thumb"></div></div>
+                            </label>
+                    </div>
+                    <div class="notif-row">
+                        <div class="notif-info">
+                            <div class="notif-title">Class reminders</div>
+                            <div class="notif-sub">1 hour before a booked class</div>
+                        </div>
+                        <label class="tog">
+                            <input type="checkbox" onchange="notifTog(this,'Class reminders')">
+                            <div class="tog-track"><div class="tog-thumb"></div></div>
+                        </label>
+                    </div>
+                    <div class="notif-row">
+                        <div class="notif-info">
+                            <div class="notif-title">Promotions & offers</div>
+                            <div class="notif-sub">Exclusive deals for members</div>
+                        </div>
+                        <label class="tog">
+                            <input type="checkbox" onchange="notifTog(this,'Promotions')">
+                            <div class="tog-track"><div class="tog-thumb"></div></div>
+                        </label>
+                    </div>
+                    <div class="notif-row" style="border-bottom:none">
+                        <div class="notif-info">
+                            <div class="notif-title">Membership status changes</div>
+                            <div class="notif-sub">Pause, cancel, or switch confirmations</div>
+                        </div>
+                        <label class="tog">
+                            <input type="checkbox" checked onchange="notifTog(this,'Status alerts')">
+                            <div class="tog-track"><div class="tog-thumb"></div></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- model: switch plan -->
+        <div class="overlay" id="ov-switch">
+            <div class="modal" style="max-width:530px">
+                <div class="m-hd">
+                    <div class="m-title">Switch Plan</div>
+                    <button class="m-x" onclick="closeOv('ov-switch')">
+                        <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                            <path d="M1 1l9 9M10 1L1 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="m-bd">
+                    <p style="font-size:13px;color:var(--gray);margin-bottom:4px">Select a new plan. Upgrades take effect immediately; downgrades at the next billing cycle.</p>
+                    <div class="sw-grid" id="sw-grid"></div>
+                    <div class="prorata-box" id="prorata-box"></div>
+                </div>
+                <div class="m-ft">
+                    <button class="btn bo" onclick="closeOv('ov-switch')">Cancel</button>
+                    <button class="btn bp" id="sw-confirm" onclick="confirmSwitch()" disabled>Confirm Switch</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- modal: pause -->
+        <div class="overlay" id="ov-pause">
+            <div class="modal" style="max-width:420px">
+                <div class="m-hd">
+                    <div class="m-title">Pause Membership</div>
+                    <button class="m-x" onclick="closeOv('ov-pause')">
+                        <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                            <path d="M1 1l9 9M10 1L1 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="m-bd">
+                    <p style="font-size:13px;color:var(--gray);margin-bottom:4px">Pausing freezes your membership and stops all payments. It resumes automatically when the pause period ends.</p>
+                    <div class="pause-opts">
+                        <div class="po" onclick="pickPause(this,1)"><div class="po-num">1</div><div class="po-unit">Month</div></div>
+                        <div class="po" onclick="pickPause(this,2)"><div class="po-num">2</div><div class="po-unit">Months</div></div>
+                        <div class="po" onclick="pickPause(this,3)"><div class="po-num">3</div><div class="po-unit">Months</div></div>
+                    </div>
+                    <div class="pause-note" id="pause-note">Select a duration to see your resume date.</div>
+                </div>
+                <div class="m-ft">
+                    <button class="btn bo" onclick="closeOv('ov-pause')">Cancel</button>
+                    <button class="btn bw" id="pause-confirm" onclick="confirmPause()" disabled>Pause Membership</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- modal: cancel -->
+        <div class="overlay" id="ov-cancel">
+            <div class="modal" style="max-width:420px">
+                <div class="m-hd">
+                    <div class="m-title" style="color:var(--red)">Cancel Membership</div>
+                    <button class="m-x" onclick="closeOv('ov-cancel')"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 1l9 9M10 1L1 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+                </div>
+                <div class="m-bd">
+                    <div class="warn"><strong>This action cannot be undone.</strong> Your membership will end at the close of the current billing period and you will not be refunded for remaining days.</div>
+                    <p style="font-size:13px;font-weight:500;margin-bottom:8px">You will immediately lose:</p>
+                    <ul class="loss-list">
+                        <li>Gym floor, group class, and premium zone access</li>
+                        <li>Your allocated locker and saved class bookings</li>
+                        <li>Priority booking and guest pass entitlements</li>
+                        <li>Member discounts on merchandise and supplements</li>
+                    </ul>
+                    <p style="font-size:12px;color:var(--gray)">Only need a break? <a href="#" style="color:var(--red)" onclick="closeOv('ov-cancel');openPause();return false">Pause instead</a> — no charges, resumes automatically.</p>
+                </div>
+                <div class="m-ft">
+                    <button class="btn bo" onclick="closeOv('ov-cancel')">Keep membership</button>
+                    <button class="btn bd" onclick="confirmCancel()">Yes, cancel</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Toast -->
+        <div class="toast" id="toast-el"><div class="td td-g" id="toast-dot"></div><span id="toast-txt">—</span></div>
+    <script src="plan-config.js"></script>
+    <script src="billing_dashboard.js"></script>
+    </body>
+</html>
