@@ -119,20 +119,6 @@ function pick(key) {
     }, 120);
 }
 
-// promoBtn.addEventListener('click', () => {
-//     const code = promoInput.value.trim().toUpperCase();
-//     if(code === 'FIT20') {
-//         state.discountMultiplier = 0.20; // 20% off
-//         alert('Promo code applied! 20% off your subtotal.');
-//         promoInput.disabled = true;
-//         promoBtn.disabled = true;
-//         promoBtn.textContent = 'Applied';
-//         calculateTotals();
-//     } else {
-//         alert('Invalid promotional code.');
-//     }
-// });
-
 // global promo state
 window._promo = {
     code: null,
