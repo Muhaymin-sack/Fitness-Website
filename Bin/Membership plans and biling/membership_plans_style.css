@@ -893,6 +893,20 @@ body {
     font-size: 12px; color: var(--ink); 
 }
 
+.promo-container { 
+    display: flex; 
+    gap: 0.5rem; 
+}
+.promo-container input { flex-grow: 1; 
+    padding: 0.75rem; border: 1px solid var(--gray-light); 
+    border-radius: var(--border); }
+
+.promo-container button {
+    width: 0vmax;
+    padding: 0.75rem 1.5rem; 
+    background: var(--white);
+}
+
 .recap-row .green { color: #2a9d5c; }
 
 .recap-total {
@@ -910,6 +924,31 @@ body {
 }
 
 .recap-total span:last-child { color: var(--red); font-size: 22px;}
+
+.promo-row {
+    display: flex;
+    gap: 10px;
+    margin: 18px 0 12px;
+}
+.promo-row input {
+    flex: 1;
+    padding: 7px 9px;
+    border: 1px solid #e0ddd9;
+    border-radius: 999px;
+    font-size: 12px;
+}
+.promo-btn {
+    padding: 7px 10px;
+    border: none;
+    border-radius: 999px;
+    background: #BA181B;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+.promo-btn:hover {
+    background: #8B0000;
+}
 
 /* trust signals list */
 .trust-list {

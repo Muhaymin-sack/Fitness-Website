@@ -119,6 +119,38 @@ function pick(key) {
     }, 120);
 }
 
+// global promo state
+window._promo = {
+    code: null,
+    discount: 0
+};
+
+function applyPromo() {
+    var input = document.getElementById('promo-code');
+    var code = input.value.trim().toUpperCase();
+
+    if (!code) {
+        flash('Please enter a promo code');
+        return;
+    }
+
+    var discount = 0;
+    if (code === 'FIT20') discount = 0.20;
+    else if (code === 'SUMMER10') discount = 0.10;
+    else {
+        flash('Promo code not valid');
+        input.classList.add('err');
+        return;
+    }
+
+    window._promo.code = code;
+    window._promo.discount = discount;
+    input.disabled = true;
+    input.classList.remove('err');
+    flash('Promo code applied: ' + (discount * 100) + '% off');
+}
+
+
 // recalculate all the summary billing figures
 function refreshSummary() {
     var p = plans[current];
@@ -167,32 +199,44 @@ function checkout() {
     // push the current billing figures into the model's order recap
     var p = plans[current];
     var base = p.price;
-    var monthly = yearly ? Math.round(base * (1 - 0.20)) : base;
+    var monthly = yearly ? Math.round(base * (1 - DISCOUNT)) : base;
     var subtotal = yearly ? monthly * 12 : monthly;
-    var vat = parseFloat((subtotal * 0.20).toFixed(2));
-    var total = parseFloat((subtotal + vat).toFixed(2));
+
+    var promoAmount = 0;
+    if (window._promo && window._promo.discount) {
+        promoAmount = parseFloat((subtotal * window._promo.discount).toFixed(2));
+    }
+    var subtotalAfterPromo = subtotal - promoAmount;
+    var vat = parseFloat((subtotalAfterPromo * VAT).toFixed(2));
+    var total = parseFloat((subtotalAfterPromo + vat).toFixed(2));
     var saved = yearly ? (base * 12) - subtotal: 0;
 
     // store totals globally so the receipt can access them later
     window._order = { plan: p.label, cycle: yearly ? 'Yearly' : 'Monthly', 
-        subtotal: subtotal, vat: vat, total: total, saved: saved, bullets: p.bullets };
+        subtotal: subtotalAfterPromo, vat: vat, total: total, saved: saved, 
+        promoCode: window._promo.code || '', promoAmount: promoAmount, bullets: p.bullets };
 
     // fill the static recap column on the right side of the model
     document.getElementById('co-plan').textContent = p.label;
     document.getElementById('co-cycle').textContent = yearly ? 'Yearly' : 'Monthly';
-    document.getElementById('co-sub').textContent = '£' + subtotal.toFixed(2);
+    if (promoAmount > 0) {
+        document.getElementById('co-saved-row').style.display = 'flex';
+        document.getElementById('co-saved').textContent = '-£' + promoAmount.toFixed(2);
+    } else {
+        document.getElementById('co-saved-row').style.display = 'none';
+    }
+    document.getElementById('co-sub').textContent = '£' + subtotalAfterPromo.toFixed(2);
     document.getElementById('co-vat').textContent = '£' + vat.toFixed(2);
     document.getElementById('co-total').textContent = '£' + total.toFixed(2);
 
+    
     // show or hide the saving line
-    var sr = document.getElementById('co-saved-row');
-    sr.style.display = saved > 0 ? 'flex' : 'none';
-    document.getElementById('co-saved').textContent = '-£' + saved.toFixed(2);
+    // var sr = document.getElementById('co-saved-row');
+    // sr.style.display = saved > 0 ? 'flex' : 'none';
+    // document.getElementById('co-saved').textContent = '-£' + saved.toFixed(2);
 
     // make sure the card tab is active when modal opens
     switchMethod('card');
-
-    // show the overlay
     document.getElementById('modal').classList.add('open');
     document.body.style.overflow = 'hidden';               // prevent background scroll
 }
@@ -246,7 +290,7 @@ function fmtCvv(el) {
 
 // update the visual card preview as the user fills in the form
 function updateCardPreview() {
-    var num = (document.getElementById('card-num').value || '').padEnd(19, 'ׁ・');
+    var num = (document.getElementById('card-num').value || '').padEnd(4, '·');
     var exp = (document.getElementById('card-exp').value || 'MM/YY');
     var name = (document.getElementById('card-name').value || 'YOUR NAME').toUpperCase();
 
@@ -337,7 +381,12 @@ function simulatePay(method) {
         document.getElementById('pay-screen').style.display = 'none';
         document.getElementById('done-screen').style.display = 'block';
 
-        flash('Payment successful! Welcome to .....!');
+        // Save the plan to localStorage so billing dashboard can display it
+        if (window.PlanConfig && current) {
+            PlanConfig.savePlan(current, yearly ? 'yearly' : 'monthly');
+        }
+
+        flash('Payment successful! Welcome to FitCore!');
     }, 1800);
 }
 
@@ -362,7 +411,7 @@ function downloadReceipt() {
             '.foot{margin-top:36px;font-size:11px;color:#6C757D;border-top:1px solid #e2dfdd;padding-top:16px}' +
             '@media print{body{margin:24px}}' +
         '</style></head><body>' +
-        '<h1>Fit<span>Core</span></h1>' +
+        '<h1>Fit<span>Ness</span></h1>' +
         '<div class="meta">Official Payment Receipt &nbsp;·&nbsp; ' + o.date + '</div>' +
         '<table>' +
             '<tr><td>Order reference</td><td>' + o.ref + '</td></tr>' +
@@ -381,7 +430,7 @@ function downloadReceipt() {
         '<script>window.onload=function(){window.print();}<\/script>' +
         '</body></html>';
 
-    // oen the receipt in a new tab
+    // open the receipt in a new tab
     var win = window.open('', '_blank');
     win.document.write(html);
     win.document.close();

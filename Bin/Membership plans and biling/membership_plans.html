@@ -256,6 +256,7 @@
             <div class="toast-dot"></div>
             <span id="toast-text">Plan selected</span>
         </div>
+<script src="plan-config.js"></script>
 <script src="membership_plans_javascript.js"></script>
 
         <!-- ======================================================
@@ -341,7 +342,7 @@
                                             <line x1="0" y1="15" x2="28" y2="15" stroke="#b8912e" stroke-width="1"/>
                                         </svg>
                                     </div>
-                                    <div class="card-num-prev" id="prev-num">・・・・・ •••• •••• ・・・・</div>
+                                    <div class="card-num-prev" id="prev-num">···· •••• •••• ····</div>
                                     <div class="card-bottom-prev">
                                         <div>
                                             <div class="card-prev-lbl">Card Holder</div>
@@ -371,7 +372,7 @@
 
                                     <div class="field">
                                         <label>CVV</label>
-                                        <input id="card-cvv" type="text" inputmode="numeric" placeholder="•••ׁ" 
+                                        <input id="card-cvv" type="text" inputmode="numeric" placeholder="•••" 
                                             maxlength="4" oninput="fmtCvv(this);clearErr(this)" />
                                         <span class="hint"></span>
                                     </div>
@@ -445,6 +446,7 @@
                                 <span>Plan</span>
                                 <span id="co-plan">-</span>
                             </div>
+
                             <div class="recap-row">
                                 <span>Billing</span>
                                 <span id="co-cycle">-</span>
@@ -464,6 +466,10 @@
                             <div class="recap-total">
                                 <span>Total</span>
                                 <span id="co-total">-</span>
+                            </div>
+                            <div class="promo-row">
+                                <input type="text" id="promo-code" placeholder="Enter promo code" />
+                                <button type="button" class="promo-btn" onclick="applyPromo()">Apply</button>
                             </div>
 
                             <!-- short trust singles -->
@@ -514,7 +520,7 @@
                             </svg>
                         </div>
                         <h2 class="done-title">Payment Successful!</h2>
-                        <p class="done-sub">Welcome to ....... Your membership is now active.</p>
+                        <p class="done-sub">Welcome to Fitness.Your membership is now active.</p>
 
                         <!-- confirmation details grid -->
                         <div class="done-details">
@@ -536,7 +542,8 @@
                                 </svg>
                                 Download Receipt
                             </button>
-                            <button class="close-btn" onclick="closeModal()">Back to Plans</button>
+                            <a href="billing_dashboard.html" class="close-btn" style="text-decoration:none">Go to Dashboard</a>
+                            <button class="close-btn" onclick="closeModal()" style="opacity:.6">Back to Plans</button>
                         </div>
                     </div>
                 </div>
