@@ -183,7 +183,49 @@ def home():
 
 @app.route("/store")
 def store():
-    pass
+    con, cur = database_connection()
+    cur.execute("SELECT * FROM products_table")
+    products = cur.fetchall()
+    con.close()
+
+    return render_template("shop.html", products=products)
+
+
+@app.route("/add-to-cart/<int:id>", methods=["POST"])
+@login_required
+def add_to_cart(id):
+    con, cur = database_connection()
+
+    cur.execute(
+        "SELECT Quantities FROM cart_table WHERE User_id = ? AND Products_id = ?",
+        (current_user.id, id)
+    )
+
+    item = cur.fetchone()
+
+    if item:
+        cur.execute(
+            """
+            UPDATE cart_table
+            SET Quantities = Quantities + 1
+            WHERE User_id = ? AND Products_id = ?
+            """,
+            (current_user.id, id)
+        )
+    else:
+        cur.execute(
+            """
+            INSERT INTO cart_table(User_id, Products_id, Quantities)
+            VALUES (?, ?, ?)
+            """,
+            (current_user.id, id, 1)
+        )
+
+    con.commit()
+    con.close()
+
+    flash("Product added to cart.")
+    return redirect(url_for("store"))
 
 @app.route("/memberships")
 def membership():

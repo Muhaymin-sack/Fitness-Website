@@ -18,7 +18,7 @@
             <div class="intro">
                 <div class="intro-tag">Membership Plans</div>
                 <h1>Choose Your<br><strong>Strength</strong></h1>
-                <p>Flexibile membership plans designed to help your reach your fitness goals, no matter where you are starting from.</p>
+                <p>Flexible membership plans designed to help your reach your fitness goals, no matter where you are starting from.</p>
             </div>
 
 
@@ -54,7 +54,7 @@
                             <div class="card-sub">{{card[3]}}</div>
                             <div class="price-row">
                                 <span class="currency">£</span>
-                                <span class="amount" id="p-{{key}}">222</span>
+                                {{card[4] | safe}}
                                 <span class="per">/mo</span>
                             </div>
                             <div class="saving-note" id="n-{{key}}">&nbsp;</div>
@@ -153,6 +153,9 @@
             <div class="toast-dot"></div>
             <span id="toast-text">Plan selected</span>
         </div>
+        <script>
+            const isLoggedIn = {{ current_user.is_authenticated | tojson }};
+        </script>
         <script src="{{ url_for('static', filename='javascripts/membership_plans_javascript.js') }}"></script>
         
         <!-- ======================================================
@@ -205,9 +208,7 @@
                                 <button class="pay-tab" data-method="applepay" onclick="switchMethod('applepay')">
                                     <!-- apple icon -->
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 1.3-1.1 2-.7 1.1-1.7 
-                                        2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 11 1 8.5 2 6.7c.6-1.2 1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 
-                                        2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="currentColor"/>
+                                        <path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 1.3-1.1 2-.7 1.1-1.7 2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 11 1 8.5 2 6.7c.6-1.2 1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="currentColor"/>
                                     </svg>
                                     Apple Pay
                                 </button>
@@ -298,18 +299,14 @@
                                 <div class="wallet-info">
                                     <div class="wallet-logo apple-logo">
                                         <svg width="32" height="32" viewBox="0 0 16 16" fill="none">
-                                            <path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 
-                                            1.3-1.1 2-.7 1.1-1.7 2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 11 1 8.5 2 6.7c.6-1.2 
-                                            1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="#0B090A"/>
+                                            <path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 1.3-1.1 2-.7 1.1-1.7 2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 11 1 8.5 2 6.7c.6-1.2 1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="#0B090A"/>
                                         </svg>
                                         Apple Pay
                                     </div>
                                     <p>Use Face ID, Touch ID, or Your Apple Wallet to pay instantly.</p>
                                 </div>
                                 <button id="pay-btn-applepay" class="pay-go apple-btn" onclick="payByApplePay()">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 
-                                        1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 1.3-1.1 2-.7 1.1-1.7 2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 
-                                        11 1 8.5 2 6.7c.6-1.2 1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="#fff"/></svg>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.3 2c.2 1-.3 2-1 2.6-.7.6-1.6.5-1.6.5-.2-.9.3-1.9 1-2.5.7-.5 1.6-.6 1.6-.6zM14 11.2c-.4.9-.6 1.3-1.1 2-.7 1.1-1.7 2.4-3 2.4-.7 0-1.2-.4-2-.4-.8 0-1.3.5-2 .5-1.3 0-2.3-1.2-3-2.3C1.2 11 1 8.5 2 6.7c.6-1.2 1.8-1.9 3-1.9.7 0 1.3.4 2 .4.6 0 1.4-.5 2.4-.5 1 0 2 .5 2.6 1.4-.1.1-2.3 1.3-2.3 3.6 0 2.6 2.3 3.4 2.3 3.5z" fill="#fff"/></svg>
                                     Pay with Apple Pay</button>
                             </div>
 

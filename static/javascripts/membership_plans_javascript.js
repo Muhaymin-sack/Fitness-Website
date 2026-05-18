@@ -164,38 +164,48 @@ function flash(msg) {
 function checkout() {
     if (!current) return;
 
-    // push the current billing figures into the model's order recap
+    if (!isLoggedIn) {
+        flash("Please login before choosing a membership.");
+        setTimeout(function () {
+            window.location.href = "/login";
+        }, 1000);
+        return;
+    }
+
     var p = plans[current];
     var base = p.price;
     var monthly = yearly ? Math.round(base * (1 - 0.20)) : base;
     var subtotal = yearly ? monthly * 12 : monthly;
     var vat = parseFloat((subtotal * 0.20).toFixed(2));
     var total = parseFloat((subtotal + vat).toFixed(2));
-    var saved = yearly ? (base * 12) - subtotal: 0;
+    var saved = yearly ? (base * 12) - subtotal : 0;
 
-    // store totals globally so the receipt can access them later
-    window._order = { plan: p.label, cycle: yearly ? 'Yearly' : 'Monthly', 
-        subtotal: subtotal, vat: vat, total: total, saved: saved, bullets: p.bullets };
+    window._order = {
+        plan: p.label,
+        cycle: yearly ? "Yearly" : "Monthly",
+        subtotal: subtotal,
+        vat: vat,
+        total: total,
+        saved: saved,
+        bullets: p.bullets
+    };
 
-    // fill the static recap column on the right side of the model
-    document.getElementById('co-plan').textContent = p.label;
-    document.getElementById('co-cycle').textContent = yearly ? 'Yearly' : 'Monthly';
-    document.getElementById('co-sub').textContent = '£' + subtotal.toFixed(2);
-    document.getElementById('co-vat').textContent = '£' + vat.toFixed(2);
-    document.getElementById('co-total').textContent = '£' + total.toFixed(2);
+    document.getElementById("co-plan").textContent = p.label;
+    document.getElementById("co-cycle").textContent = yearly ? "Yearly" : "Monthly";
+    document.getElementById("co-sub").textContent = "£" + subtotal.toFixed(2);
+    document.getElementById("co-vat").textContent = "£" + vat.toFixed(2);
+    document.getElementById("co-total").textContent = "£" + total.toFixed(2);
 
-    // show or hide the saving line
-    var sr = document.getElementById('co-saved-row');
-    sr.style.display = saved > 0 ? 'flex' : 'none';
-    document.getElementById('co-saved').textContent = '-£' + saved.toFixed(2);
+    var sr = document.getElementById("co-saved-row");
+    sr.style.display = saved > 0 ? "flex" : "none";
+    document.getElementById("co-saved").textContent = "-£" + saved.toFixed(2);
 
-    // make sure the card tab is active when modal opens
-    switchMethod('card');
+    switchMethod("card");
 
-    // show the overlay
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';               // prevent background scroll
+    document.getElementById("modal").classList.add("open");
+    document.body.style.overflow = "hidden";
 }
+
 function selectMembership(id) {
     selectedMembershipId = id;
 
