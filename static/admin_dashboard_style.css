@@ -304,3 +304,7 @@ body {
         font-size: 44px;
     }
 }
+
+.trainer-hours-card {
+    grid-column: 1 / -1;
+}

@@ -311,9 +311,22 @@ def admin_dashboard():
     # GET request - retrieve trainers
     cur.execute("SELECT Trainer_id, Name FROM Trainer_table")
     trainers = cur.fetchall()
-    con.close()
+    
+    cur.execute("""
+        SELECT 
+            Trainer_Availability_table.Availability_id,
+            Trainer_Availability_table.Schedule,
+            Trainer_Availability_table.Duration,
+            Trainer_table.Name
+        FROM Trainer_Availability_table
+        JOIN Trainer_table
+        ON Trainer_Availability_table.Trainer_id = Trainer_table.Trainer_id
+        ORDER BY Trainer_Availability_table.Schedule ASC
+    """)
 
-    return render_template("admin_dashboard.html", trainers=trainers)
+    trainer_hours = cur.fetchall()
+    con.close()
+    return render_template("admin_dashboard.html", trainers=trainers, trainer_hours=trainer_hours)
 
 @app.route("/Trainer-dashboard")
 def trainer_dashboard():
