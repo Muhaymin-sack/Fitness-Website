@@ -42,12 +42,15 @@
               
               <strong>Membership Plans</strong>
             </a>
-            <a class="navbar-item" style="color: var(--ink) !important;">
+            <a class="navbar-item" href="{{url_for('classes')}}" style="color: var(--ink) !important;">
               
               <strong>Classes</strong>
             </a>
             <a class="navbar-item" style="color: var(--ink) !important;">
               <strong>Personal Training</strong>
+            </a>
+            <a class="navbar-item" href="{{url_for('admin_dashboard')}}" style="color: var(--ink) !important;">
+              <strong>Admin Dashboard</strong>
             </a>
             
             {% if current_user.is_authenticated %}

@@ -55,15 +55,14 @@ def load_user(id):
         account_type = "User"
     else:
         account_type = "Admin"
-    cur.execute(f"Select * From {account_type}_table Where {account_type}_Id=(?)", (id,))
+    cur.execute(f"Select * From {account_type}_table Where {account_type}_id=(?)", (id,))
     row = cur.fetchone()
     con.commit()
     con.close()
     print(row)
 
     if row is None:
-        flash("Email not found. Please check your email or sign up for an account.")
-        return redirect(url_for('login'))
+        return None
     else:
         return User(row[0], row[1], account_type, row[4], row[5])
 
@@ -79,7 +78,7 @@ def sign_up():
         account_type = request.form.get('account_type')
         email = request.form.get('email')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm-password')
+        confirm_password = request.form.get('confirm_password')
         print(account_type, password, confirm_password)
         # check if the user already exists if not then it creates an account
         # otherwise it won't allow the person to create a second account
@@ -107,15 +106,18 @@ def sign_up():
                 flash("Please make sure that you fill out all details correctly.")
                 return redirect(url_for("sign_up"))
             # checks if passwords entered are both the same
-            if check_both_password(password, confirm_password):
+            if check_both_password(password, confirm_password) == True:
                 encrypted_password = bcrypt.generate_password_hash(password).decode("utf-8") 
-            # then we insert the user_detials
-            con, cur = database_connection()
-            cur.execute(f"Insert Into {account_type} (Name, Email, Password) Values (?, ?, ?)", (name, email, encrypted_password))
-            con.commit()
-            con.close()
-            flash("Account created successfully! Before you procced use the account to login")
-            return redirect(url_for('login'))
+                # then we insert the user_detials
+                con, cur = database_connection()
+                cur.execute(f"Insert Into {account_type} (Name, Email, Password) Values (?, ?, ?)", (name, email, encrypted_password))
+                con.commit()
+                con.close()
+                flash("Account created successfully! Before you procced use the account to login")
+                return redirect(url_for('login'))
+            else:
+                # check_both_password returned a redirect response
+                return check_both_password(password, confirm_password)
         else:
             flash("Sorry, this account is already taken")
     return render_template('register.html')
@@ -279,15 +281,123 @@ def membership_choice(id):
 
     return redirect(url_for("home"))
 
-@app.route("/class")
-def classes():
+
+@app.route("/Admin-dashboard", methods=["GET", "POST"])
+@login_required
+def admin_dashboard():
+    if current_user.account_type != "Admin":
+        flash("Only admins can access this page.")
+        return redirect(url_for("home"))
+
+    con, cur = database_connection()
+
+    if request.method == "POST":
+        class_name = request.form.get("class_name")
+        trainer_id = request.form.get("trainer_id")
+        schedule = request.form.get("schedule")
+        duration = request.form.get("duration")
+
+        cur.execute("""
+            INSERT INTO Class_table(Name, Schedule, Duration, Trainer_id, Admin_id)
+            VALUES (?, ?, ?, ?, ?)
+        """, (class_name, schedule, duration, trainer_id, current_user.id))
+
+        con.commit()
+        con.close()
+
+        flash("Class created successfully.")
+        return redirect(url_for("admin_dashboard"))
+
+    # GET request - retrieve trainers
+    cur.execute("SELECT Trainer_id, Name FROM Trainer_table")
+    trainers = cur.fetchall()
+    con.close()
+
+    return render_template("admin_dashboard.html", trainers=trainers)
+
+@app.route("/Trainer-dashboard")
+def trainer_dashboard():
     pass
 
 @app.route("/Personal-Training")
 def personal_training():
     pass
 
+@app.route("/class")
+def classes():
+    con, cur = database_connection()
 
+    cur.execute("""
+        SELECT 
+            Class_table.Class_id,
+            Class_table.Name,
+            Class_table.Schedule,
+            Class_table.Duration,
+            Trainer_table.Name,
+            Trainer_table.Gender
+        FROM Class_table
+        JOIN Trainer_table
+        ON Class_table.Trainer_id = Trainer_table.Trainer_id
+        ORDER BY Class_table.Schedule ASC
+    """)
+    classes = cur.fetchall()
+
+    joined_class_ids = []
+
+    if current_user.is_authenticated and current_user.account_type == "User":
+        cur.execute(
+            "SELECT Class_id FROM Booking_table WHERE User_id = ?",
+            (current_user.id,)
+        )
+        joined_class_ids = [row[0] for row in cur.fetchall()]
+
+    con.close()
+
+    return render_template("classes.html", classes=classes, joined_class_ids=joined_class_ids)
+
+@app.route("/join-class/<int:id>", methods=["POST"])
+@login_required
+def join_class(id):
+    if current_user.account_type != "User":
+        flash("Only members can join classes.")
+        return redirect(url_for("classes"))
+
+    con, cur = database_connection()
+
+    cur.execute(
+        "SELECT Booking_id FROM Booking_table WHERE Class_id = ? AND User_id = ?",
+        (id, current_user.id)
+    )
+    existing = cur.fetchone()
+
+    if existing:
+        flash("You have already joined this class.")
+    else:
+        cur.execute(
+            "INSERT INTO Booking_table(Class_id, User_id) VALUES (?, ?)",
+            (id, current_user.id)
+        )
+        con.commit()
+        flash("You have joined the class.")
+
+    con.close()
+    return redirect(url_for("classes"))
+
+@app.route("/remove-class-booking/<int:id>", methods=["POST"])
+@login_required
+def remove_class_booking(id):
+    con, cur = database_connection()
+
+    cur.execute(
+        "DELETE FROM Booking_table WHERE Class_id = ? AND User_id = ?",
+        (id, current_user.id)
+    )
+
+    con.commit()
+    con.close()
+
+    flash("You have removed this class booking.")
+    return redirect(url_for("classes"))
 
 
 if __name__ == "__main__":

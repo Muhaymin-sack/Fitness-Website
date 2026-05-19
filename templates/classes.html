@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Class Booking
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='Classes_page.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="section class-booking-section">
+    <div class="wrap">
+
+        <div class="intro">
+            <div class="intro-tag">Class Booking</div>
+            <h1>Book your <strong>gym class</strong></h1>
+            <p>Select a scheduled class, check the trainer, time, availability and reserve your place.</p>
+        </div>
+
+        <div class="columns is-multiline is-variable is-5">
+
+            {% for class in classes %}
+                <div class="column is-6">
+                    <div class="class-card">
+
+                        <div class="class-head">
+                            <p>{{ class[2] }}</p>
+                            <span>{{ class[1] }}</span>
+                        </div>
+
+                        <div class="class-image">
+                            <img src="{{ url_for('static', filename='images/8.png') }}" alt="Treadmill">
+                        </div>
+
+                        <div class="class-info-grid">
+                            <div class="info-box">
+                                <span>Led by</span>
+                                <strong>{{ class[4] }}</strong>
+                            </div>
+
+                            <div class="info-box">
+                                <span>Time</span>
+                                <strong>{{ class[3] }} mins</strong>
+                            </div>
+
+                            <div class="info-box">
+                                <span>Gender</span>
+                                <strong>{{ class[5] }}</strong>
+                            </div>
+                        </div>
+
+                        <p class="schedule-text">
+                            Schedule: {{ class[2] }}
+                        </p>
+
+                        <div class="class-actions">
+                            <div class="places-box">
+                                Available
+                            </div>
+
+                            {% if current_user.is_authenticated and current_user.account_type == "User" %}
+
+                                {% if class[0] in joined_class_ids %}
+                                    <form method="POST" action="{{ url_for('remove_class_booking', id=class[0]) }}">
+                                        <button type="submit" class="join-btn remove-btn">
+                                            Remove
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('join_class', id=class[0]) }}">
+                                        <button type="submit" class="join-btn">
+                                            Join
+                                        </button>
+                                    </form>
+                                {% endif %}
+
+                            {% elif current_user.is_authenticated %}
+                                <button class="join-btn disabled-btn" disabled>
+                                    Members Only
+                                </button>
+                            {% else %}
+                                <a href="{{ url_for('login') }}" class="join-btn">
+                                    Login to Join
+                                </a>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="column is-12">
+                    <p class="has-text-centered">
+                        No classes have been created yet.
+                    </p>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
