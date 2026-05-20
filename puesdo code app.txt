@@ -1,0 +1,569 @@
+START
+
+IMPORT Flask Libraries
+IMPORT SQLite Library
+IMPORT Flask-Bcrypt
+IMPORT Flask-Login
+IMPORT Date Libraries
+
+CREATE Flask Application
+
+INITIALISE Bcrypt
+INITIALISE Login Manager
+
+SET Secret Key
+SET Login View
+
+--------------------------------------------------
+DATABASE CONNECTION
+--------------------------------------------------
+
+FUNCTION Database_Connection
+
+    CONNECT TO Fitness.db
+    CREATE Cursor
+
+    RETURN Connection AND Cursor
+
+END FUNCTION
+
+--------------------------------------------------
+PASSWORD VALIDATION
+--------------------------------------------------
+
+FUNCTION Check_Both_Password(password, confirm_password)
+
+    IF password EQUALS confirm_password
+        RETURN TRUE
+    ELSE
+        DISPLAY Flash Message ->
+        "Passwords do not match"
+
+        REDIRECT TO Sign Up Page
+    END IF
+
+END FUNCTION
+
+--------------------------------------------------
+USER CLASS
+--------------------------------------------------
+
+CLASS User EXTENDS UserMixin
+
+    FUNCTION Constructor(id, name, account_type, email, password)
+
+        STORE id
+        STORE name
+        STORE account_type
+        STORE email
+        STORE password
+
+    END FUNCTION
+
+    FUNCTION Get_ID
+
+        RETURN account_type + ":" + id
+
+    END FUNCTION
+
+END CLASS
+
+--------------------------------------------------
+LOAD USER
+--------------------------------------------------
+
+USE login_manager.user_loader
+
+FUNCTION Load_User(id)
+
+    SPLIT id USING ":"
+    STORE TO account_type AND id
+
+    CONNECT TO DATABASE
+
+    IF account_type IS Trainer
+        SET account_type TO Trainer
+
+    ELSE IF account_type IS User
+        SET account_type TO User
+
+    ELSE
+        SET account_type TO Admin
+    END IF
+
+    SELECT USER FROM account_type_table
+    WHERE account_type_id EQUALS id
+
+    STORE RESULT TO row
+
+    CLOSE DATABASE
+
+    IF row IS EMPTY
+        RETURN NONE
+
+    ELSE
+        RETURN User Object
+    END IF
+
+END FUNCTION
+
+--------------------------------------------------
+SIGN UP ROUTE
+--------------------------------------------------
+
+ROUTE "/Sign-up"
+
+FUNCTION Sign_Up
+
+    IF REQUEST METHOD IS POST
+
+        GET name FROM FORM
+        GET account_type FROM FORM
+        GET email FROM FORM
+        GET password FROM FORM
+        GET confirm_password FROM FORM
+
+        CHECK account_type
+
+        CONNECT TO DATABASE
+
+        SEARCH EMAIL IN account_type TABLE
+
+        STORE RESULT TO row
+
+        CLOSE DATABASE
+
+        IF row DOES NOT EXIST
+
+            IF name IS EMPTY
+                DISPLAY Flash Message
+                REDIRECT TO Sign Up
+            END IF
+
+            IF Check_Both_Password RETURNS TRUE
+
+                HASH password USING Bcrypt
+                STORE TO encrypted_password
+
+                CONNECT TO DATABASE
+
+                INSERT USER DETAILS INTO DATABASE
+
+                COMMIT CHANGES
+                CLOSE DATABASE
+
+                DISPLAY SUCCESS MESSAGE
+
+                REDIRECT TO Login Page
+
+            ELSE
+
+                RETURN Password Validation Error
+
+            END IF
+
+        ELSE
+
+            DISPLAY ->
+            "Account already exists"
+
+        END IF
+
+    END IF
+
+    RETURN Register Page
+
+END FUNCTION
+
+--------------------------------------------------
+LOGIN ROUTE
+--------------------------------------------------
+
+ROUTE "/login"
+
+FUNCTION Login
+
+    IF REQUEST METHOD IS POST
+
+        IF current_user IS AUTHENTICATED
+
+            DISPLAY ->
+            "Welcome Back"
+
+            REDIRECT TO Home Page
+
+        ELSE
+
+            GET account_type
+            GET email
+            GET password
+            GET remember
+
+            CHECK account_type
+
+            CONNECT TO DATABASE
+
+            SEARCH USER USING email
+
+            STORE RESULT TO row
+
+            CLOSE DATABASE
+
+            IF row EXISTS
+
+                CHECK HASH PASSWORD USING Bcrypt
+
+                STORE RESULT TO access
+
+                IF access IS TRUE
+
+                    CREATE User Object
+
+                    LOGIN USER
+
+                    DISPLAY ->
+                    "Successfully logged in"
+
+                    REDIRECT TO Home Page
+
+                ELSE
+
+                    DISPLAY ->
+                    "Incorrect email or password"
+
+                    REDIRECT TO Login
+
+                END IF
+
+            ELSE
+
+                DISPLAY ->
+                "Email not found"
+
+                REDIRECT TO Login
+
+            END IF
+
+        END IF
+
+    END IF
+
+    RETURN Login Page
+
+END FUNCTION
+
+--------------------------------------------------
+LOGOUT ROUTE
+--------------------------------------------------
+
+ROUTE "/logout"
+
+FUNCTION Logout
+
+    LOGOUT USER
+
+    REDIRECT TO Home Page
+
+END FUNCTION
+
+--------------------------------------------------
+HOME ROUTE
+--------------------------------------------------
+
+ROUTE "/"
+
+FUNCTION Home
+
+    RETURN Home Page
+
+END FUNCTION
+
+--------------------------------------------------
+STORE ROUTE
+--------------------------------------------------
+
+ROUTE "/store"
+
+FUNCTION Store
+
+    CONNECT TO DATABASE
+
+    SELECT ALL PRODUCTS
+
+    STORE TO products
+
+    CLOSE DATABASE
+
+    RETURN Shop Page WITH products
+
+END FUNCTION
+
+--------------------------------------------------
+ADD TO CART
+--------------------------------------------------
+
+ROUTE "/add-to-cart/<id>"
+
+LOGIN REQUIRED
+
+FUNCTION Add_To_Cart(id)
+
+    CONNECT TO DATABASE
+
+    SEARCH cart_table
+    USING User_id AND Products_id
+
+    STORE RESULT TO item
+
+    IF item EXISTS
+
+        UPDATE Quantities + 1
+
+    ELSE
+
+        INSERT NEW CART ITEM
+
+    END IF
+
+    COMMIT CHANGES
+    CLOSE DATABASE
+
+    DISPLAY ->
+    "Product added to cart"
+
+    REDIRECT TO Store
+
+END FUNCTION
+
+--------------------------------------------------
+MEMBERSHIP PAGE
+--------------------------------------------------
+
+ROUTE "/memberships"
+
+FUNCTION Membership
+
+    CONNECT TO DATABASE
+
+    SELECT ALL MEMBERSHIPS
+
+    STORE TO memberships
+
+    CLOSE DATABASE
+
+    RETURN Membership Page WITH memberships
+
+END FUNCTION
+
+--------------------------------------------------
+MEMBERSHIP PAYMENT
+--------------------------------------------------
+
+ROUTE "/membership/<id>"
+
+LOGIN REQUIRED
+
+FUNCTION Membership_Choice(id)
+
+    CONNECT TO DATABASE
+
+    GET TODAY DATE
+    CALCULATE END DATE
+
+    SEARCH IF USER ALREADY HAS MEMBERSHIP
+
+    IF MEMBERSHIP EXISTS
+
+        UPDATE MEMBERSHIP DETAILS
+
+        DISPLAY ->
+        "Membership updated"
+
+    ELSE
+
+        INSERT NEW MEMBERSHIP
+
+        DISPLAY ->
+        "Membership added"
+
+    END IF
+
+    COMMIT CHANGES
+    CLOSE DATABASE
+
+    REDIRECT TO Home Page
+
+END FUNCTION
+
+--------------------------------------------------
+ADMIN DASHBOARD
+--------------------------------------------------
+
+ROUTE "/Admin-dashboard"
+
+LOGIN REQUIRED
+
+FUNCTION Admin_Dashboard
+
+    IF current_user IS NOT Admin
+
+        DISPLAY ->
+        "Only admins can access"
+
+        REDIRECT TO Home
+
+    END IF
+
+    CONNECT TO DATABASE
+
+    IF REQUEST METHOD IS POST
+
+        GET class_name
+        GET trainer_id
+        GET schedule
+        GET duration
+
+        INSERT NEW CLASS INTO DATABASE
+
+        COMMIT CHANGES
+        CLOSE DATABASE
+
+        DISPLAY ->
+        "Class created successfully"
+
+        REDIRECT TO Admin Dashboard
+
+    END IF
+
+    SELECT ALL TRAINERS
+
+    STORE TO trainers
+
+    SELECT TRAINER AVAILABILITY
+
+    STORE TO trainer_hours
+
+    CLOSE DATABASE
+
+    RETURN Admin Dashboard WITH trainers
+    AND trainer_hours
+
+END FUNCTION
+
+--------------------------------------------------
+CLASS PAGE
+--------------------------------------------------
+
+ROUTE "/class"
+
+FUNCTION Classes
+
+    CONNECT TO DATABASE
+
+    SELECT ALL CLASSES
+    JOIN Trainer_table
+
+    STORE TO classes
+
+    CREATE EMPTY joined_class_ids
+
+    IF USER IS LOGGED IN
+    AND USER IS MEMBER
+
+        SELECT ALL USER BOOKINGS
+
+        STORE CLASS IDs TO joined_class_ids
+
+    END IF
+
+    CLOSE DATABASE
+
+    RETURN Classes Page
+    WITH classes AND joined_class_ids
+
+END FUNCTION
+
+--------------------------------------------------
+JOIN CLASS
+--------------------------------------------------
+
+ROUTE "/join-class/<id>"
+
+LOGIN REQUIRED
+
+FUNCTION Join_Class(id)
+
+    IF USER IS NOT MEMBER
+
+        DISPLAY ->
+        "Only members can join classes"
+
+        REDIRECT TO Classes Page
+
+    END IF
+
+    CONNECT TO DATABASE
+
+    SEARCH Booking_table
+    USING Class_id AND User_id
+
+    STORE RESULT TO existing
+
+    IF existing EXISTS
+
+        DISPLAY ->
+        "Already joined class"
+
+    ELSE
+
+        INSERT NEW BOOKING
+
+        COMMIT CHANGES
+
+        DISPLAY ->
+        "Joined class successfully"
+
+    END IF
+
+    CLOSE DATABASE
+
+    REDIRECT TO Classes Page
+
+END FUNCTION
+
+--------------------------------------------------
+REMOVE CLASS BOOKING
+--------------------------------------------------
+
+ROUTE "/remove-class-booking/<id>"
+
+LOGIN REQUIRED
+
+FUNCTION Remove_Class_Booking(id)
+
+    CONNECT TO DATABASE
+
+    DELETE BOOKING
+    USING Class_id AND User_id
+
+    COMMIT CHANGES
+    CLOSE DATABASE
+
+    DISPLAY ->
+    "Booking removed"
+
+    REDIRECT TO Classes Page
+
+END FUNCTION
+
+--------------------------------------------------
+RUN APPLICATION
+--------------------------------------------------
+
+IF FILE IS MAIN
+
+    RUN FLASK APPLICATION
+
+END IF
+
+STOP
