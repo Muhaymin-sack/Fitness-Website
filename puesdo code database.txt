@@ -1,0 +1,184 @@
+START
+
+IMPORT SQLite Library
+
+CONNECT TO Fitness.db
+
+CREATE Cursor
+
+--------------------------------------------------
+USER TABLES
+--------------------------------------------------
+
+CREATE User_table IF IT DOES NOT EXIST
+
+    STORE:
+        User_id
+        Name
+        Age
+        Gender
+        Email
+        Password
+
+CREATE Admin_table IF IT DOES NOT EXIST
+
+    STORE:
+        Admin_id
+        Name
+        Age
+        Gender
+        Email
+        Password
+
+CREATE Trainer_table IF IT DOES NOT EXIST
+
+    STORE:
+        Trainer_id
+        Name
+        Age
+        Gender
+        Email
+        Password
+
+--------------------------------------------------
+CLASS AND BOOKING TABLES
+--------------------------------------------------
+
+CREATE Class_table IF IT DOES NOT EXIST
+
+    STORE:
+        Class_id
+        Name
+        Schedule
+        Duration
+        Trainer_id
+        Admin_id
+
+    LINK Trainer_id TO Trainer_table
+    LINK Admin_id TO Admin_table
+
+CREATE Booking_table IF IT DOES NOT EXIST
+
+    STORE:
+        Booking_id
+        Class_id
+        User_id
+
+    LINK Class_id TO Class_table
+    LINK User_id TO User_table
+
+--------------------------------------------------
+TRAINER AVAILABILITY
+--------------------------------------------------
+
+CREATE Trainer_Availability_table IF IT DOES NOT EXIST
+
+    STORE:
+        Availability_id
+        Schedule
+        Duration
+        Trainer_id
+
+    LINK Trainer_id TO Trainer_table
+
+--------------------------------------------------
+PERSONAL CLASS TABLE
+--------------------------------------------------
+
+CREATE PersonalClass_table IF IT DOES NOT EXIST
+
+    STORE:
+        PC_id
+        Workout_plan
+        User_id
+        Availability_id
+
+    LINK User_id TO User_table
+    LINK Availability_id TO Trainer_Availability_table
+
+--------------------------------------------------
+MEMBERSHIP TABLE
+--------------------------------------------------
+
+CREATE Membership_table IF IT DOES NOT EXIST
+
+    STORE:
+        Membership_id
+        Tag
+        Card_Name
+        Sub_Card
+        Price
+        Description
+        Icons
+
+INSERT Membership Plans INTO Membership_table
+
+    INSERT Basic Plan
+
+    INSERT Standard Plan
+
+    INSERT Premium Plan
+
+    INSERT Student Plan
+
+--------------------------------------------------
+USER MEMBERSHIP TABLE
+--------------------------------------------------
+
+CREATE Users_Membership_table IF IT DOES NOT EXIST
+
+    STORE:
+        UM_id
+        Start_date
+        End_date
+        Payment_status
+        User_id
+        Membership_id
+
+    LINK User_id TO User_table
+    LINK Membership_id TO Membership_table
+
+--------------------------------------------------
+PRODUCT TABLE
+--------------------------------------------------
+
+CREATE products_table IF IT DOES NOT EXIST
+
+    STORE:
+        Products_id
+        Name
+        Price
+        Image
+
+INSERT Product Records INTO products_table
+
+    INSERT Performance Leggings
+    INSERT Training Shorts
+    INSERT Pre-Workout Surge
+    INSERT Protein Bars
+    INSERT Pro Lifting Belt
+    INSERT Stainless Steel Shaker
+
+--------------------------------------------------
+CART TABLE
+--------------------------------------------------
+
+CREATE cart_table IF IT DOES NOT EXIST
+
+    STORE:
+        User_id
+        Products_id
+        Quantities
+
+    LINK User_id TO User_table
+    LINK Products_id TO products_table
+
+--------------------------------------------------
+SAVE AND CLOSE
+--------------------------------------------------
+
+COMMIT CHANGES TO DATABASE
+
+CLOSE DATABASE CONNECTION
+
+STOP
